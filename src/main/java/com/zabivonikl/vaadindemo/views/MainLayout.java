@@ -73,6 +73,7 @@ public class MainLayout extends AppLayout {
         H1 appName = new H1("Vaadin Demo");
         appName.addClassNames(Margin.Vertical.MEDIUM, Margin.End.AUTO, FontSize.LARGE);
         layout.add(appName);
+        layout.add(new MenuItemInfo.LineAwesomeIcon("la la-vaadin"));
 
         Nav nav = new Nav();
         nav.addClassNames(Display.FLEX, Overflow.AUTO, Padding.Horizontal.MEDIUM, Padding.Vertical.XSMALL);
@@ -92,8 +93,8 @@ public class MainLayout extends AppLayout {
 
     private MenuItemInfo[] createMenuItems() {
         return new MenuItemInfo[]{
-                new MenuItemInfo("Персонал", "la la-columns", PersonalView.class),
-                new MenuItemInfo("Товары", "la la-columns", InventoryView.class)
+                new MenuItemInfo("Персонал", "la la-user", PersonalView.class),
+                new MenuItemInfo("Товары", "la la-barcode", InventoryView.class)
         };
     }
 

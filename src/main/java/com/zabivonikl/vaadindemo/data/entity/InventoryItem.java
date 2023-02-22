@@ -1,5 +1,7 @@
 package com.zabivonikl.vaadindemo.data.entity;
 
+import net.bytebuddy.implementation.bind.annotation.IgnoreForBinding;
+
 import javax.persistence.Entity;
 
 @Entity
@@ -36,6 +38,10 @@ public class InventoryItem extends AbstractEntity {
 
     public double getPrice() {
         return price;
+    }
+
+    public String getFormatedPrice() {
+        return Double.toString(price) + '₽';
     }
 
     public void setPrice(double price) {

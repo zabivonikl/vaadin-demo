@@ -36,7 +36,7 @@ export class InventoryView extends LitElement {
           </div>
           <vaadin-horizontal-layout class="button-layout">
             <vaadin-button theme="primary" id="save">Сохранить</vaadin-button>
-            <vaadin-button theme="negative" id="delete">Удалить</vaadin-button>
+            <vaadin-button theme="primary" id="delete">Удалить</vaadin-button>
             <vaadin-button theme="tertiary" slot="" id="cancel">Отмена</vaadin-button>
           </vaadin-horizontal-layout>
         </div>

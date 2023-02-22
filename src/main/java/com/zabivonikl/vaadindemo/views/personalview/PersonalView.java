@@ -19,10 +19,7 @@ import com.vaadin.flow.component.template.Id;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.ValidationException;
-import com.vaadin.flow.router.BeforeEnterEvent;
-import com.vaadin.flow.router.BeforeEnterObserver;
-import com.vaadin.flow.router.PageTitle;
-import com.vaadin.flow.router.Route;
+import com.vaadin.flow.router.*;
 import com.vaadin.flow.spring.data.VaadinSpringDataHelpers;
 import com.zabivonikl.vaadindemo.data.entity.Person;
 import com.zabivonikl.vaadindemo.data.service.PersonService;
@@ -31,7 +28,7 @@ import java.util.Optional;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
 
-@PageTitle("Персонал")
+@PageTitle("Персонал | Vaadin Demo")
 @Route(value = "personal/:personId?/:action?(edit)", layout = MainLayout.class)
 @Tag("personal-view")
 @JsModule("./views/personal/personal-view.ts")
@@ -94,7 +91,7 @@ public class PersonalView extends LitTemplate implements HasStyle, BeforeEnterOb
                 UI.getCurrent().navigate(String.format(PERSON_EDIT_ROUTE_TEMPLATE, event.getValue().getId()));
             } else {
                 clearForm();
-                UI.getCurrent().navigate(PersonalView.class);
+                UI.getCurrent().navigate(this.getClass());
             }
         });
 
@@ -121,7 +118,7 @@ public class PersonalView extends LitTemplate implements HasStyle, BeforeEnterOb
                 clearForm();
                 refreshGrid();
                 Notification.show("Запись удалена");
-                UI.getCurrent().navigate(PersonalView.class);
+                UI.getCurrent().navigate(this.getClass());
             } catch (ObjectOptimisticLockingFailureException exception) {
                 Notification n = Notification.show(
                         "Ошибка при удалении записи. Кто-то уже редактирует данные.");
@@ -142,7 +139,7 @@ public class PersonalView extends LitTemplate implements HasStyle, BeforeEnterOb
                 clearForm();
                 refreshGrid();
                 Notification.show("Данные обновлены");
-                UI.getCurrent().navigate(PersonalView.class);
+                UI.getCurrent().navigate(this.getClass());
             } catch (ObjectOptimisticLockingFailureException exception) {
                 Notification n = Notification.show(
                         "Ошибка обновления данных. Кто-то уже редактирует данные.");
@@ -169,7 +166,7 @@ public class PersonalView extends LitTemplate implements HasStyle, BeforeEnterOb
                 // when a row is selected but the data is no longer available,
                 // refresh grid
                 refreshGrid();
-                event.forwardTo(PersonalView.class);
+                event.forwardTo(this.getClass());
             }
         }
     }

@@ -34,7 +34,7 @@ import org.springframework.orm.ObjectOptimisticLockingFailureException;
 
 import java.util.Optional;
 
-@PageTitle("Инвентарь")
+@PageTitle("Инвентарь | Vaadin Demo")
 @Route(value = "inventory/:itemId?/:action?(edit)", layout = MainLayout.class)
 @Tag("inventory-view")
 @JsModule("./views/inventory/inventory-view.ts")
@@ -77,7 +77,7 @@ public class InventoryView extends LitTemplate implements HasStyle, BeforeEnterO
         grid.addColumn(InventoryItem::getVendor).setHeader("Производитель").setAutoWidth(true);
         grid.addColumn(InventoryItem::getTitle).setHeader("Название").setAutoWidth(true);
         grid.addColumn(InventoryItem::getCategory).setHeader("Категория").setAutoWidth(true);
-        grid.addColumn(InventoryItem::getPrice).setHeader("Цена").setAutoWidth(true);
+        grid.addColumn(InventoryItem::getFormatedPrice).setHeader("Цена").setAutoWidth(true);
         grid.addColumn(InventoryItem::getPiecesLeft).setHeader("Количество").setAutoWidth(true);
 
         grid.setItems(query ->
@@ -95,7 +95,7 @@ public class InventoryView extends LitTemplate implements HasStyle, BeforeEnterO
                 UI.getCurrent().navigate(String.format(ITEM_EDIT_ROUTE_TEMPLATE, event.getValue().getId()));
             } else {
                 clearForm();
-                UI.getCurrent().navigate(PersonalView.class);
+                UI.getCurrent().navigate(this.getClass());
             }
         });
 
@@ -123,7 +123,7 @@ public class InventoryView extends LitTemplate implements HasStyle, BeforeEnterO
                 clearForm();
                 refreshGrid();
                 Notification.show("Запись удалена");
-                UI.getCurrent().navigate(PersonalView.class);
+                UI.getCurrent().navigate(this.getClass());
             } catch (ObjectOptimisticLockingFailureException exception) {
                 Notification n = Notification.show(
                         "Ошибка при удалении записи. Кто-то уже редактирует данные.");
@@ -144,7 +144,7 @@ public class InventoryView extends LitTemplate implements HasStyle, BeforeEnterO
                 clearForm();
                 refreshGrid();
                 Notification.show("Данные обновлены");
-                UI.getCurrent().navigate(PersonalView.class);
+                UI.getCurrent().navigate(this.getClass());
             } catch (ObjectOptimisticLockingFailureException exception) {
                 Notification n = Notification.show(
                         "Ошибка обновления данных. Кто-то уже редактирует данные.");
@@ -171,7 +171,7 @@ public class InventoryView extends LitTemplate implements HasStyle, BeforeEnterO
                 // when a row is selected but the data is no longer available,
                 // refresh grid
                 refreshGrid();
-                event.forwardTo(PersonalView.class);
+                event.forwardTo(this.getClass());
             }
         }
     }
