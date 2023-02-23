@@ -1,37 +1,18 @@
 package com.zabivonikl.vaadindemo.views.tableviews.inventoryview;
 
-import com.vaadin.flow.component.HasStyle;
 import com.vaadin.flow.component.Tag;
-import com.vaadin.flow.component.UI;
-import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.JsModule;
-import com.vaadin.flow.component.dependency.Uses;
 import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.grid.GridVariant;
-import com.vaadin.flow.component.icon.Icon;
-import com.vaadin.flow.component.littemplate.LitTemplate;
-import com.vaadin.flow.component.notification.Notification;
-import com.vaadin.flow.component.notification.NotificationVariant;
 import com.vaadin.flow.component.template.Id;
 import com.vaadin.flow.component.textfield.IntegerField;
 import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.data.binder.BeanValidationBinder;
-import com.vaadin.flow.data.binder.ValidationException;
-import com.vaadin.flow.router.BeforeEnterEvent;
-import com.vaadin.flow.router.BeforeEnterObserver;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.spring.data.VaadinSpringDataHelpers;
 import com.zabivonikl.vaadindemo.data.entity.InventoryItem;
 import com.zabivonikl.vaadindemo.data.service.InventoryService;
 import com.zabivonikl.vaadindemo.views.MainLayout;
 import com.zabivonikl.vaadindemo.views.tableviews.TableView;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.orm.ObjectOptimisticLockingFailureException;
-
-import java.util.Optional;
 
 @PageTitle("Инвентарь | Vaadin Demo")
 @Route(value = "inventory/:itemId?/:action?(edit)", layout = MainLayout.class)

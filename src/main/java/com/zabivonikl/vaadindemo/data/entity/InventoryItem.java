@@ -1,7 +1,5 @@
 package com.zabivonikl.vaadindemo.data.entity;
 
-import net.bytebuddy.implementation.bind.annotation.IgnoreForBinding;
-
 import javax.persistence.Entity;
 
 @Entity
