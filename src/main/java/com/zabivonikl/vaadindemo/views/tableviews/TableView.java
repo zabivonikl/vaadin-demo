@@ -1,193 +1,78 @@
 package com.zabivonikl.vaadindemo.views.tableviews;
 
-import com.vaadin.flow.component.HasStyle;
-import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.Uses;
 import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.grid.GridVariant;
 import com.vaadin.flow.component.icon.Icon;
-import com.vaadin.flow.component.littemplate.LitTemplate;
-import com.vaadin.flow.component.notification.Notification;
-import com.vaadin.flow.component.notification.NotificationVariant;
-import com.vaadin.flow.component.template.Id;
-import com.vaadin.flow.data.binder.BeanValidationBinder;
-import com.vaadin.flow.data.binder.ValidationException;
-import com.vaadin.flow.router.BeforeEnterEvent;
-import com.vaadin.flow.router.BeforeEnterObserver;
-import com.vaadin.flow.spring.data.VaadinSpringDataHelpers;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.value.ValueChangeMode;
+import com.vaadin.flow.theme.lumo.LumoUtility;
 import com.zabivonikl.vaadindemo.data.entity.AbstractEntity;
 import com.zabivonikl.vaadindemo.data.service.AbstractService;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.orm.ObjectOptimisticLockingFailureException;
-
-import java.util.Optional;
 
 @Uses(Icon.class)
-public abstract class TableView<T extends AbstractEntity> extends LitTemplate implements HasStyle, BeforeEnterObserver {
-    @Id
-    protected Grid<T> grid;
+public abstract class TableView<T extends AbstractEntity> extends VerticalLayout {
+    protected Grid<T> grid = new Grid<>();
 
-    @Id
-    protected Button cancel;
-    @Id
-    protected Button save;
+    private final TextField filterText = new TextField();
 
-    @Id
-    protected Button delete;
+    private EditForm form;
 
-    protected BeanValidationBinder<T> binder;
+    private final AbstractService<T> service;
 
-    protected T entity;
+    public TableView(AbstractService<T> service) {
+        this.service = service;
 
-    protected final AbstractService<T> inventoryService;
+        setPadding(true);
+        addClassName("list-view");
 
-    protected TableView(AbstractService<T> dataProvider) {
-        this.inventoryService = dataProvider;
+        setSizeFull();
+        configureGrid();
+        configureForm();
 
-        initGrid();
-        initBinder();
-        initCancel();
-        initDelete();
-        initSave();
+        add(getToolbar(), getContent());
+        updateList();
     }
 
-    private void initGrid() {
-        addGridColumns();
-        grid.setItems(query ->
-                inventoryService.list(
-                        PageRequest.of(
-                                query.getPage(), query.getPageSize(),
-                                VaadinSpringDataHelpers.toSpringDataSort(query)
-                        )
-                ).stream()
-        );
-        grid.addThemeVariants(GridVariant.LUMO_NO_BORDER);
-        grid.setHeightFull();
+    private Component getContent() {
+        HorizontalLayout content = new HorizontalLayout(grid, form);
+        content.setFlexGrow(2, grid);
+        content.setFlexGrow(1, form);
+        content.addClassNames("content");
+        content.setSizeFull();
+        return content;
+    }
 
-        // when a row is selected or deselected, populate form
-        grid.asSingleSelect().addValueChangeListener(event -> {
-            if (event.getValue() != null) {
-                UI.getCurrent().navigate(String.format(getEditRouteTemplate(), event.getValue().getId()));
-            } else {
-                clearForm();
-                UI.getCurrent().navigate(this.getClass());
-            }
-        });
+    private void configureForm() {
+        form = createForm();
+        form.setWidth("25em");
+    }
+
+    protected abstract EditForm createForm();
+
+    private void configureGrid() {
+        grid.addClassNames("contact-grid");
+        grid.setSizeFull();
+        addGridColumns();
     }
 
     protected abstract void addGridColumns();
 
-    protected abstract String getEditRouteTemplate();
+    private HorizontalLayout getToolbar() {
+        filterText.setPlaceholder("Поиск...");
+        filterText.setClearButtonVisible(true);
+        filterText.setValueChangeMode(ValueChangeMode.LAZY);
+        filterText.addValueChangeListener(e -> updateList());
 
-    private void initBinder() {
-        this.entity = getNewEntity();
-        binder = new BeanValidationBinder<T>((Class<T>) entity.getClass());
-        binder.bindInstanceFields(this);
-        this.entity = null;
+        HorizontalLayout toolbar = new HorizontalLayout(filterText);
+        toolbar.addClassName("toolbar");
+        return toolbar;
     }
 
-    protected abstract T getNewEntity();
-
-    private void initCancel() {
-        cancel.addClickListener(e -> {
-            clearForm();
-            refreshGrid();
-        });
-    }
-
-    private void initDelete() {
-        delete.addThemeVariants(ButtonVariant.LUMO_ERROR);
-        delete.addClickListener(e -> {
-            try {
-                deleteEntity();
-            } catch (ObjectOptimisticLockingFailureException exception) {
-                Notification n = Notification.show(
-                        "Ошибка при удалении записи. Кто-то уже редактирует данные.");
-                n.setPosition(Notification.Position.MIDDLE);
-                n.addThemeVariants(NotificationVariant.LUMO_ERROR);
-            } catch (ValidationException validationException) {
-                Notification.show("Ошибка удаления данных. Проверьте корректность введённых данных.");
-            }
-        });
-    }
-
-    private void deleteEntity() throws ValidationException {
-        if (this.entity == null)
-            return;
-
-        binder.writeBean(this.entity);
-        inventoryService.delete(this.entity.getId());
-
-        clearForm();
-        refreshGrid();
-
-        Notification.show("Запись удалена");
-        UI.getCurrent().navigate(this.getClass());
-    }
-
-    private void initSave() {
-        save.addClickListener(e -> {
-            try {
-                saveEntity();
-            } catch (ObjectOptimisticLockingFailureException exception) {
-                Notification n = Notification.show(
-                        "Ошибка обновления данных. Кто-то уже редактирует данные.");
-                n.setPosition(Notification.Position.MIDDLE);
-                n.addThemeVariants(NotificationVariant.LUMO_ERROR);
-            } catch (ValidationException validationException) {
-                Notification.show("Ошибка обновления данных. Проверьте корректность введёных данных.");
-            }
-        });
-    }
-
-    private void saveEntity() throws ValidationException {
-        if (this.entity == null) this.entity = getNewEntity();
-
-        binder.writeBean(this.entity);
-        inventoryService.update(this.entity);
-
-        clearForm();
-        refreshGrid();
-
-        Notification.show("Данные обновлены");
-        UI.getCurrent().navigate(this.getClass());
-    }
-
-    @Override
-    public void beforeEnter(BeforeEnterEvent event) {
-        Optional<Long> itemId = event
-                .getRouteParameters()
-                .get(getEntityId())
-                .map(Long::parseLong);
-        if (itemId.isPresent()) {
-            Optional<T> inventoryItemFormBackend = inventoryService.get(itemId.get());
-            if (inventoryItemFormBackend.isPresent()) {
-                populateForm(inventoryItemFormBackend.get());
-            } else {
-                Notification.show(
-                        String.format("Запрашиваемый объект не найден, ID = %s", itemId.get()), 3000,
-                        Notification.Position.BOTTOM_START);
-                refreshGrid();
-                event.forwardTo(this.getClass());
-            }
-        }
-    }
-
-    protected abstract String getEntityId();
-
-    private void refreshGrid() {
-        grid.select(null);
-        grid.getLazyDataView().refreshAll();
-    }
-
-    private void clearForm() {
-        populateForm(null);
-    }
-
-    private void populateForm(T value) {
-        this.entity = value;
-        binder.readBean(this.entity);
+    private void updateList() {
+        grid.setItems(service.findAll(filterText.getValue()));
     }
 }

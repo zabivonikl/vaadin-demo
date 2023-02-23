@@ -2,6 +2,7 @@ package com.zabivonikl.vaadindemo.data.service;
 
 import com.zabivonikl.vaadindemo.data.entity.AbstractEntity;
 
+import java.util.List;
 import java.util.Optional;
 
 import com.zabivonikl.vaadindemo.data.service.repositories.AbstractRepository;
@@ -40,6 +41,14 @@ public abstract class AbstractService<T extends AbstractEntity> {
         return repository.findAll(filter, pageable);
     }
     */
+
+    public List<T> findAll(String stringFilter) {
+        if (stringFilter == null || stringFilter.isEmpty()) {
+            return repository.findAll();
+        } else {
+            return repository.search(stringFilter);
+        }
+    }
 
     public int count() {
         return (int) repository.count();
