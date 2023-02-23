@@ -7,8 +7,8 @@ import com.vaadin.flow.component.dependency.NpmPackage;
 import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.theme.lumo.LumoUtility.*;
-import com.zabivonikl.vaadindemo.views.inventoryview.InventoryView;
-import com.zabivonikl.vaadindemo.views.personalview.PersonalView;
+import com.zabivonikl.vaadindemo.views.tableviews.inventoryview.InventoryView;
+import com.zabivonikl.vaadindemo.views.tableviews.personalview.PersonalView;
 
 /**
  * The main view is a top-level placeholder for other views.

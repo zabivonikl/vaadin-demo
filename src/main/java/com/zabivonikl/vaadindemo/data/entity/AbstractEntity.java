@@ -9,7 +9,6 @@ import javax.persistence.Version;
 
 @MappedSuperclass
 public abstract class AbstractEntity {
-
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "idGenerator")
     @SequenceGenerator(name = "idGenerator")
