@@ -1,8 +1,8 @@
 package com.zabivonikl.vaadindemo.data.entity;
 
-import java.time.LocalDate;
 import javax.persistence.Entity;
 import javax.validation.constraints.Email;
+import java.time.LocalDate;
 
 @Entity
 public class Person extends AbstractEntity {

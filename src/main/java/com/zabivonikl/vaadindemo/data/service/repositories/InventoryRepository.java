@@ -9,8 +9,8 @@ import java.util.List;
 public interface InventoryRepository extends AbstractRepository<InventoryItem> {
     @Query(
             "select item from InventoryItem item " +
-            "where lower(item.title) like lower(concat('%', :searchTerm, '%')) " +
-            "or lower(item.vendor) like lower(concat('%', :searchTerm, '%'))"
+                    "where lower(item.title) like lower(concat('%', :searchTerm, '%')) " +
+                    "or lower(item.vendor) like lower(concat('%', :searchTerm, '%'))"
     )
     List<InventoryItem> search(@Param("searchTerm") String searchTerm);
 }

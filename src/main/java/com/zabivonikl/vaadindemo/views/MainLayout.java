@@ -11,47 +11,6 @@ import com.zabivonikl.vaadindemo.views.tableviews.personalview.PersonalView;
 import com.zabivonikl.vaadindemo.views.welcomeview.WelcomeView;
 
 public class MainLayout extends AppLayout {
-    public static class MenuItemInfo extends ListItem {
-
-        private final Class<? extends Component> view;
-
-        public MenuItemInfo(String menuTitle, String iconClass, Class<? extends Component> view) {
-            this.view = view;
-            RouterLink link = new RouterLink();
-            // Use Lumo classnames for various styling
-            link.addClassNames(Display.FLEX, Gap.XSMALL, Height.MEDIUM, AlignItems.CENTER, Padding.Horizontal.SMALL,
-                    TextColor.BODY);
-            link.setRoute(view);
-
-            Span text = new Span(menuTitle);
-            // Use Lumo classnames for various styling
-            text.addClassNames(FontWeight.MEDIUM, FontSize.MEDIUM, Whitespace.NOWRAP);
-
-            link.add(new LineAwesomeIcon(iconClass), text);
-            add(link);
-        }
-
-        public Class<?> getView() {
-            return view;
-        }
-
-        /**
-         * Simple wrapper to create icons using LineAwesome iconset. See
-         * <a href="https://icons8.com/line-awesome">https://icons8.com/line-awesome</a>
-         */
-        @NpmPackage(value = "line-awesome", version = "1.3.0")
-        public static class LineAwesomeIcon extends Span {
-            public LineAwesomeIcon(String lineawesomeClassnames) {
-                // Use Lumo classnames for suitable font styling
-                addClassNames(FontSize.LARGE, TextColor.SECONDARY);
-                if (!lineawesomeClassnames.isEmpty()) {
-                    addClassNames(lineawesomeClassnames);
-                }
-            }
-        }
-
-    }
-
     public MainLayout() {
         addToNavbar(createHeaderContent());
     }
@@ -104,6 +63,47 @@ public class MainLayout extends AppLayout {
                 new MenuItemInfo("Персонал", "la la-user", PersonalView.class),
                 new MenuItemInfo("Товары", "la la-barcode", InventoryView.class)
         };
+    }
+
+    public static class MenuItemInfo extends ListItem {
+
+        private final Class<? extends Component> view;
+
+        public MenuItemInfo(String menuTitle, String iconClass, Class<? extends Component> view) {
+            this.view = view;
+            RouterLink link = new RouterLink();
+            // Use Lumo classnames for various styling
+            link.addClassNames(Display.FLEX, Gap.XSMALL, Height.MEDIUM, AlignItems.CENTER, Padding.Horizontal.SMALL,
+                    TextColor.BODY);
+            link.setRoute(view);
+
+            Span text = new Span(menuTitle);
+            // Use Lumo classnames for various styling
+            text.addClassNames(FontWeight.MEDIUM, FontSize.MEDIUM, Whitespace.NOWRAP);
+
+            link.add(new LineAwesomeIcon(iconClass), text);
+            add(link);
+        }
+
+        public Class<?> getView() {
+            return view;
+        }
+
+        /**
+         * Simple wrapper to create icons using LineAwesome iconset. See
+         * <a href="https://icons8.com/line-awesome">https://icons8.com/line-awesome</a>
+         */
+        @NpmPackage(value = "line-awesome", version = "1.3.0")
+        public static class LineAwesomeIcon extends Span {
+            public LineAwesomeIcon(String lineawesomeClassnames) {
+                // Use Lumo classnames for suitable font styling
+                addClassNames(FontSize.LARGE, TextColor.SECONDARY);
+                if (!lineawesomeClassnames.isEmpty()) {
+                    addClassNames(lineawesomeClassnames);
+                }
+            }
+        }
+
     }
 
 }

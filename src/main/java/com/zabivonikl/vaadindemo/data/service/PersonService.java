@@ -1,7 +1,6 @@
 package com.zabivonikl.vaadindemo.data.service;
 
 import com.zabivonikl.vaadindemo.data.entity.Person;
-
 import com.zabivonikl.vaadindemo.data.service.repositories.PersonRepository;
 import org.springframework.stereotype.Service;
 

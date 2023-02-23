@@ -38,12 +38,12 @@ public class InventoryItem extends AbstractEntity {
         return price;
     }
 
-    public String getFormatedPrice() {
-        return Double.toString(price) + '₽';
-    }
-
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public String getFormatedPrice() {
+        return Double.toString(price) + '₽';
     }
 
     public int getPiecesLeft() {

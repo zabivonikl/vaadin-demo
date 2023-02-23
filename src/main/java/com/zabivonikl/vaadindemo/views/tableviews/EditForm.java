@@ -7,11 +7,11 @@ import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 
 public abstract class EditForm extends FormLayout {
-    private Button save = new Button("Сохранить");
+    private final Button save = new Button("Сохранить");
 
-    private Button delete = new Button("Удалить");
+    private final Button delete = new Button("Удалить");
 
-    private Button close = new Button("Отмена");
+    private final Button close = new Button("Отмена");
 
     protected HorizontalLayout createButtonsLayout() {
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);

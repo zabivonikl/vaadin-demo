@@ -7,17 +7,17 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.zabivonikl.vaadindemo.views.tableviews.EditForm;
 
 public class PersonForm extends EditForm {
-    private TextField firstName = new TextField("Имя");
+    private final TextField firstName = new TextField("Имя");
 
-    private TextField lastName = new TextField("Фамилия");
+    private final TextField lastName = new TextField("Фамилия");
 
-    private EmailField email = new EmailField("Email");
+    private final EmailField email = new EmailField("Email");
 
-    private IntegerField phone = new IntegerField("Телефон");
+    private final IntegerField phone = new IntegerField("Телефон");
 
-    private DatePicker dateOfBirth = new DatePicker("Дата рождения");
+    private final DatePicker dateOfBirth = new DatePicker("Дата рождения");
 
-    private TextField role = new TextField("Должность");
+    private final TextField role = new TextField("Должность");
 
     public PersonForm() {
         super();

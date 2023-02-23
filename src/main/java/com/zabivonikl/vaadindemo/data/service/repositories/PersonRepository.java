@@ -9,7 +9,7 @@ import java.util.List;
 public interface PersonRepository extends AbstractRepository<Person> {
     @Override
     @Query("select p from Person p " +
-        "where lower(p.firstName) like lower(concat('%', :searchTerm, '%')) " +
-        "or lower(p.lastName) like lower(concat('%', :searchTerm, '%'))")
+            "where lower(p.firstName) like lower(concat('%', :searchTerm, '%')) " +
+            "or lower(p.lastName) like lower(concat('%', :searchTerm, '%'))")
     List<Person> search(@Param("searchTerm") String searchTerm);
 }

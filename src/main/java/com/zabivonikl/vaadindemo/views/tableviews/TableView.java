@@ -13,13 +13,10 @@ import com.zabivonikl.vaadindemo.data.service.AbstractService;
 
 @Uses(Icon.class)
 public abstract class TableView<T extends AbstractEntity> extends VerticalLayout {
-    protected Grid<T> grid = new Grid<>();
-
     private final TextField filterText = new TextField();
-
-    private EditForm form;
-
     private final AbstractService<T> service;
+    protected Grid<T> grid = new Grid<>();
+    private EditForm form;
 
     public TableView(AbstractService<T> service) {
         this.service = service;

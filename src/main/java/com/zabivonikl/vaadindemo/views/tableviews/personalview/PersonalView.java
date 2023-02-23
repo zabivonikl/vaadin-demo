@@ -1,7 +1,5 @@
 package com.zabivonikl.vaadindemo.views.tableviews.personalview;
 
-import com.vaadin.flow.component.datepicker.DatePicker;
-import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.zabivonikl.vaadindemo.data.entity.Person;

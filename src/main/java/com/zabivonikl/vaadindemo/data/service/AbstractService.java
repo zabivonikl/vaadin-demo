@@ -1,13 +1,12 @@
 package com.zabivonikl.vaadindemo.data.service;
 
 import com.zabivonikl.vaadindemo.data.entity.AbstractEntity;
-
-import java.util.List;
-import java.util.Optional;
-
 import com.zabivonikl.vaadindemo.data.service.repositories.AbstractRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+
+import java.util.List;
+import java.util.Optional;
 
 public abstract class AbstractService<T extends AbstractEntity> {
     private final AbstractRepository<T> repository;
