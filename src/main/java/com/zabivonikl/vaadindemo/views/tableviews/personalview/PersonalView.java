@@ -3,8 +3,6 @@ package com.zabivonikl.vaadindemo.views.tableviews.personalview;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.dependency.JsModule;
-import com.vaadin.flow.component.dependency.Uses;
-import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.template.Id;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
@@ -18,7 +16,6 @@ import com.zabivonikl.vaadindemo.views.tableviews.TableView;
 @Route(value = "personal/:personId?/:action?(edit)", layout = MainLayout.class)
 @Tag("personal-view")
 @JsModule("./views/personal/personal-view.ts")
-@Uses(Icon.class)
 public class PersonalView extends TableView<Person> {
 
     private final String PERSON_ID = "personId";
