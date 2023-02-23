@@ -13,22 +13,8 @@ import com.zabivonikl.vaadindemo.views.tableviews.TableView;
 @PageTitle("Персонал | Vaadin Demo")
 @Route(value = "personal", layout = MainLayout.class)
 public class PersonalView extends TableView<Person> {
-
-    private TextField firstName;
-
-    private TextField lastName;
-
-    private TextField email;
-
-    private TextField phone;
-
-    private DatePicker dateOfBirth;
-
-    private TextField role;
-
     public PersonalView(PersonService personService) {
         super(personService);
-        addClassNames("personal-view");
     }
 
     @Override
@@ -38,11 +24,12 @@ public class PersonalView extends TableView<Person> {
 
     @Override
     protected void addGridColumns() {
-        grid.addColumn(Person::getFirstName).setHeader("Имя").setAutoWidth(true);
-        grid.addColumn(Person::getLastName).setHeader("Фамилия").setAutoWidth(true);
-        grid.addColumn(Person::getEmail).setHeader("Email").setAutoWidth(true);
-        grid.addColumn(Person::getPhone).setHeader("Телефон").setAutoWidth(true);
-        grid.addColumn(Person::getDateOfBirth).setHeader("Дата рождения").setAutoWidth(true);
-        grid.addColumn(Person::getRole).setHeader("Должность").setAutoWidth(true);
+        grid.addColumn(Person::getFirstName).setHeader("Имя");
+        grid.addColumn(Person::getLastName).setHeader("Фамилия");
+        grid.addColumn(Person::getEmail).setHeader("Email");
+        grid.addColumn(Person::getPhone).setHeader("Телефон");
+        grid.addColumn(Person::getDateOfBirth).setHeader("Дата рождения");
+        grid.addColumn(Person::getRole).setHeader("Должность");
+        grid.getColumns().forEach(column -> column.setAutoWidth(true));
     }
 }

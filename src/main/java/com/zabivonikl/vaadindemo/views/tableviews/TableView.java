@@ -1,7 +1,6 @@
 package com.zabivonikl.vaadindemo.views.tableviews;
 
 import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.Uses;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.icon.Icon;
@@ -9,7 +8,6 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.value.ValueChangeMode;
-import com.vaadin.flow.theme.lumo.LumoUtility;
 import com.zabivonikl.vaadindemo.data.entity.AbstractEntity;
 import com.zabivonikl.vaadindemo.data.service.AbstractService;
 
@@ -54,7 +52,6 @@ public abstract class TableView<T extends AbstractEntity> extends VerticalLayout
     protected abstract EditForm createForm();
 
     private void configureGrid() {
-        grid.addClassNames("contact-grid");
         grid.setSizeFull();
         addGridColumns();
     }
@@ -62,14 +59,18 @@ public abstract class TableView<T extends AbstractEntity> extends VerticalLayout
     protected abstract void addGridColumns();
 
     private HorizontalLayout getToolbar() {
-        filterText.setPlaceholder("Поиск...");
-        filterText.setClearButtonVisible(true);
-        filterText.setValueChangeMode(ValueChangeMode.LAZY);
-        filterText.addValueChangeListener(e -> updateList());
+        initializeFilterText();
 
         HorizontalLayout toolbar = new HorizontalLayout(filterText);
         toolbar.addClassName("toolbar");
         return toolbar;
+    }
+
+    private void initializeFilterText() {
+        filterText.setPlaceholder("Поиск...");
+        filterText.setClearButtonVisible(true);
+        filterText.setValueChangeMode(ValueChangeMode.LAZY);
+        filterText.addValueChangeListener(e -> updateList());
     }
 
     private void updateList() {

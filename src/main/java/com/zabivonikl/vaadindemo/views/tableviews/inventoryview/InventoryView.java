@@ -14,7 +14,6 @@ public class InventoryView extends TableView<InventoryItem> {
 
     public InventoryView(InventoryService inventoryService) {
         super(inventoryService);
-        addClassNames("inventory-view");
     }
 
     @Override
@@ -24,10 +23,11 @@ public class InventoryView extends TableView<InventoryItem> {
 
     @Override
     protected void addGridColumns() {
-        grid.addColumn(InventoryItem::getVendor).setHeader("Производитель").setAutoWidth(true);
-        grid.addColumn(InventoryItem::getTitle).setHeader("Название").setAutoWidth(true);
-        grid.addColumn(InventoryItem::getCategory).setHeader("Категория").setAutoWidth(true);
-        grid.addColumn(InventoryItem::getFormatedPrice).setHeader("Цена").setAutoWidth(true);
-        grid.addColumn(InventoryItem::getPiecesLeft).setHeader("Количество").setAutoWidth(true);
+        grid.addColumn(InventoryItem::getVendor).setHeader("Производитель");
+        grid.addColumn(InventoryItem::getTitle).setHeader("Название");
+        grid.addColumn(InventoryItem::getCategory).setHeader("Категория");
+        grid.addColumn(InventoryItem::getFormatedPrice).setHeader("Цена");
+        grid.addColumn(InventoryItem::getPiecesLeft).setHeader("Количество");
+        grid.getColumns().forEach(column -> column.setAutoWidth(true));
     }
 }

@@ -1,6 +1,5 @@
 package com.zabivonikl.vaadindemo.views;
 
-
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.dependency.NpmPackage;
@@ -9,15 +8,9 @@ import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.theme.lumo.LumoUtility.*;
 import com.zabivonikl.vaadindemo.views.tableviews.inventoryview.InventoryView;
 import com.zabivonikl.vaadindemo.views.tableviews.personalview.PersonalView;
+import com.zabivonikl.vaadindemo.views.welcomeview.WelcomeView;
 
-/**
- * The main view is a top-level placeholder for other views.
- */
 public class MainLayout extends AppLayout {
-
-    /**
-     * A simple navigation item component, based on ListItem element.
-     */
     public static class MenuItemInfo extends ListItem {
 
         private final Class<? extends Component> view;
@@ -66,29 +59,44 @@ public class MainLayout extends AppLayout {
     private Component createHeaderContent() {
         Header header = new Header();
         header.addClassNames(BoxSizing.BORDER, Display.FLEX, FlexDirection.COLUMN, Width.FULL);
+        header.add(getLayout(), getNavbar());
 
+        return header;
+    }
+
+    private Component getLayout() {
         Div layout = new Div();
         layout.addClassNames(Display.FLEX, AlignItems.CENTER, Padding.Horizontal.LARGE);
+        layout.add(getAppName());
 
-        H1 appName = new H1("Vaadin Demo");
+        return layout;
+    }
+
+    private Component getAppName() {
+        H1 appName = new H1(new MenuItemInfo.LineAwesomeIcon("la la-vaadin"));
+        appName.add("Vaadin Demo");
         appName.addClassNames(Margin.Vertical.MEDIUM, Margin.End.AUTO, FontSize.LARGE);
-        layout.add(appName);
-        layout.add(new MenuItemInfo.LineAwesomeIcon("la la-vaadin"));
+        RouterLink link = new RouterLink(WelcomeView.class);
+        link.addClassNames(TextColor.BODY);
+        link.add(appName);
+        return link;
+    }
 
+    private Component getNavbar() {
         Nav nav = new Nav();
         nav.addClassNames(Display.FLEX, Overflow.AUTO, Padding.Horizontal.MEDIUM, Padding.Vertical.XSMALL);
+        nav.add(getMenuItems());
 
-        // Wrap the links in a list; improves accessibility
+        return nav;
+    }
+
+    private UnorderedList getMenuItems() {
         UnorderedList list = new UnorderedList();
         list.addClassNames(Display.FLEX, Gap.SMALL, ListStyleType.NONE, Margin.NONE, Padding.NONE);
-        nav.add(list);
-
-        for (MenuItemInfo menuItem : createMenuItems()) {
+        for (MenuItemInfo menuItem : createMenuItems())
             list.add(menuItem);
-        }
 
-        header.add(layout, nav);
-        return header;
+        return list;
     }
 
     private MenuItemInfo[] createMenuItems() {
