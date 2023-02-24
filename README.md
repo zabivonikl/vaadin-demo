@@ -18,9 +18,11 @@ http://localhost:8080 в браузере.
 
 ## Деплой с использованием Docker
 
-Для этого выполните команды
+Для этого выполните команды:
 
 ```
 mvn clean package -Pproduction
 docker compose up
 ```
+
+После запуска сервер будет доступен по адресу http://localhost
