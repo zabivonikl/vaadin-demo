@@ -1,14 +1,16 @@
 package com.zabivonikl.vaadindemo.data.entity;
 
 import javax.persistence.Entity;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
 public class InventoryItem extends AbstractEntity {
+    @NotEmpty
     private String title;
     private String vendor;
+    private String category;
     private int piecesLeft;
     private double price;
-    private String category;
 
     public String getTitle() {
         return title;

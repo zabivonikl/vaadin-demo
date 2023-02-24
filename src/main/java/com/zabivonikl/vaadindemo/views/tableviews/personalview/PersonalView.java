@@ -5,7 +5,6 @@ import com.vaadin.flow.router.Route;
 import com.zabivonikl.vaadindemo.data.entity.Person;
 import com.zabivonikl.vaadindemo.data.service.PersonService;
 import com.zabivonikl.vaadindemo.views.MainLayout;
-import com.zabivonikl.vaadindemo.views.tableviews.EditForm;
 import com.zabivonikl.vaadindemo.views.tableviews.TableView;
 
 @PageTitle("Персонал | Vaadin Demo")
@@ -16,8 +15,8 @@ public class PersonalView extends TableView<Person> {
     }
 
     @Override
-    protected EditForm createForm() {
-        return new PersonForm();
+    protected PersonEditForm createForm() {
+        return new PersonEditForm();
     }
 
     @Override

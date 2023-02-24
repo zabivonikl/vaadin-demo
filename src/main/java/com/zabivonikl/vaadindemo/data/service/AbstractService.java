@@ -31,6 +31,10 @@ public abstract class AbstractService<T extends AbstractEntity> {
         repository.deleteById(id);
     }
 
+    public void delete(T entity) {
+        repository.delete(entity);
+    }
+
     public Page<T> list(Pageable pageable) {
         return repository.findAll(pageable);
     }

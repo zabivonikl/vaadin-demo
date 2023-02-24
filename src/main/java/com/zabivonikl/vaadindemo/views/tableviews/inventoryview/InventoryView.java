@@ -5,7 +5,6 @@ import com.vaadin.flow.router.Route;
 import com.zabivonikl.vaadindemo.data.entity.InventoryItem;
 import com.zabivonikl.vaadindemo.data.service.InventoryService;
 import com.zabivonikl.vaadindemo.views.MainLayout;
-import com.zabivonikl.vaadindemo.views.tableviews.EditForm;
 import com.zabivonikl.vaadindemo.views.tableviews.TableView;
 
 @PageTitle("Инвентарь | Vaadin Demo")
@@ -17,7 +16,7 @@ public class InventoryView extends TableView<InventoryItem> {
     }
 
     @Override
-    protected EditForm createForm() {
+    protected InventoryItemEditForm createForm() {
         return new InventoryItemEditForm();
     }
 
