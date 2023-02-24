@@ -11,6 +11,7 @@ import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.shared.Registration;
+import com.zabivonikl.vaadindemo.data.EditFormEvents;
 import com.zabivonikl.vaadindemo.data.entity.AbstractEntity;
 
 public abstract class EditForm<T extends AbstractEntity> extends FormLayout {
@@ -43,8 +44,8 @@ public abstract class EditForm<T extends AbstractEntity> extends FormLayout {
         close.addClickShortcut(Key.ESCAPE);
 
         save.addClickListener(event -> validateAndSave());
-        delete.addClickListener(event -> fireEvent(new DeleteEvent<>(this, entity)));
-        close.addClickListener(event -> fireEvent(new CloseEvent<>(this)));
+        delete.addClickListener(event -> fireEvent(new EditFormEvents.DeleteEvent(this)));
+        close.addClickListener(event -> fireEvent(new EditFormEvents.CloseEvent(this)));
 
         binder.addStatusChangeListener(e -> save.setEnabled(binder.isValid()));
 
@@ -54,41 +55,14 @@ public abstract class EditForm<T extends AbstractEntity> extends FormLayout {
     private void validateAndSave() {
         try {
             binder.writeBean(entity);
-            fireEvent(new SaveEvent<>(this, entity));
+            fireEvent(new EditFormEvents.SaveEvent(this));
         } catch (ValidationException e) {
             e.printStackTrace();
         }
     }
 
-    public static abstract class EditFormEvent<TEntity extends AbstractEntity> extends ComponentEvent<EditForm<TEntity>> {
-        private final TEntity entity;
-
-        protected EditFormEvent(EditForm<TEntity> source, TEntity entity) {
-            super(source, false);
-            this.entity = entity;
-        }
-
-        public TEntity getEntity() {
-            return entity;
-        }
-    }
-
-    public static class SaveEvent<TEntity extends AbstractEntity> extends EditFormEvent<TEntity> {
-        SaveEvent(EditForm<TEntity> source, TEntity entity) {
-            super(source, entity);
-        }
-    }
-
-    public static class DeleteEvent<TEntity extends AbstractEntity> extends EditFormEvent<TEntity> {
-        DeleteEvent(EditForm<TEntity> source, TEntity entity) {
-            super(source, entity);
-        }
-    }
-
-    public static class CloseEvent<TEntity extends AbstractEntity> extends EditFormEvent<TEntity> {
-        CloseEvent(EditForm<TEntity> source) {
-            super(source, null);
-        }
+    public T getEntity() {
+        return entity;
     }
 
     @Override

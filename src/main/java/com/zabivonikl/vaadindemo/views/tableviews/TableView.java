@@ -9,6 +9,7 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.value.ValueChangeMode;
+import com.zabivonikl.vaadindemo.data.EditFormEvents;
 import com.zabivonikl.vaadindemo.data.entity.AbstractEntity;
 import com.zabivonikl.vaadindemo.data.service.AbstractService;
 
@@ -47,21 +48,21 @@ public abstract class TableView<T extends AbstractEntity> extends VerticalLayout
         form = createForm();
         form.setWidth("25em");
 
-//        form.addListener(EditForm.SaveEvent.class, this::saveEntity);
-//        form.addListener(EditForm.DeleteEvent.class, this::deleteEntity);
-//        form.addListener(EditForm.CloseEvent.class, e -> closeEditor());
+        form.addListener(EditFormEvents.SaveEvent.class, this::saveEntity);
+        form.addListener(EditFormEvents.DeleteEvent.class, this::deleteEntity);
+        form.addListener(EditFormEvents.CloseEvent.class, e -> closeEditor());
     }
 
     protected abstract EditForm<T> createForm();
 
-    protected void saveEntity(EditForm.SaveEvent<T> event) {
-        service.add(event.getEntity());
+    protected void saveEntity(EditFormEvents.SaveEvent event) {
+        service.add(form.getEntity());
         updateList();
         closeEditor();
     }
 
-    private void deleteEntity(EditForm.DeleteEvent<T> event) {
-        service.delete(event.getEntity());
+    private void deleteEntity(EditFormEvents.DeleteEvent event) {
+        service.delete(form.getEntity());
         updateList();
         closeEditor();
     }
