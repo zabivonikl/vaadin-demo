@@ -14,27 +14,14 @@ import com.zabivonikl.vaadindemo.data.entity.AbstractEntity;
 import com.zabivonikl.vaadindemo.data.service.AbstractService;
 import com.zabivonikl.vaadindemo.security.SecurityService;
 import com.zabivonikl.vaadindemo.security.data.entity.Role;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-
-import java.util.Collection;
 
 @Uses(Icon.class)
 public abstract class TableView<T extends AbstractEntity> extends VerticalLayout {
-    private final TextField filterText = new TextField();
     protected final AbstractService<T> entityService;
+    private final TextField filterText = new TextField();
     private final SecurityService securityService;
     protected Grid<T> grid = new Grid<>();
     private EditForm<T> form;
-
-    private boolean isUserAdmin() {
-        String role = securityService.getAuthenticatedUser()
-                .getAuthorities()
-                .iterator().next()
-                .getAuthority();
-
-        return Role.valueOf(role) == Role.Admin;
-    }
 
     public TableView(AbstractService<T> entityService, SecurityService securityService) {
         this.entityService = entityService;
@@ -50,6 +37,15 @@ public abstract class TableView<T extends AbstractEntity> extends VerticalLayout
         add(getToolbar(), getContent());
         updateList();
         closeEditor();
+    }
+
+    private boolean isUserAdmin() {
+        String role = securityService.getAuthenticatedUser()
+                .getAuthorities()
+                .iterator().next()
+                .getAuthority();
+
+        return Role.valueOf(role) == Role.Admin;
     }
 
     private Component getContent() {

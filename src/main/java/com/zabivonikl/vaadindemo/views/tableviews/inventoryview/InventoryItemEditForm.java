@@ -19,11 +19,6 @@ public class InventoryItemEditForm extends EditForm<InventoryItem> {
 
     public final NumberField price = new NumberField("Цена");
 
-    @Override
-    protected InventoryItem createEntity() {
-        return new InventoryItem();
-    }
-
     public InventoryItemEditForm() {
         super();
         add(
@@ -35,6 +30,11 @@ public class InventoryItemEditForm extends EditForm<InventoryItem> {
                 createButtonsLayout()
         );
         configureBinder();
+    }
+
+    @Override
+    protected InventoryItem createEntity() {
+        return new InventoryItem();
     }
 
     @Override

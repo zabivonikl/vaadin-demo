@@ -15,25 +15,16 @@ import com.zabivonikl.vaadindemo.data.EditFormEvents;
 import com.zabivonikl.vaadindemo.data.entity.AbstractEntity;
 
 public abstract class EditForm<T extends AbstractEntity> extends FormLayout {
-    private T entity;
-
+    private final Button save = new Button("Сохранить");
+    private final Button delete = new Button("Удалить");
+    private final Button close = new Button("Отмена");
     @SuppressWarnings("unchecked")
     protected Binder<T> binder = new BeanValidationBinder<>((Class<T>) createEntity().getClass());
-
-    private final Button save = new Button("Сохранить");
-
-    private final Button delete = new Button("Удалить");
-
-    private final Button close = new Button("Отмена");
+    private T entity;
 
     protected abstract T createEntity();
 
     protected abstract void configureBinder();
-
-    public void setEntity(T entity) {
-        this.entity = entity;
-        binder.readBean(this.entity);
-    }
 
     protected HorizontalLayout createButtonsLayout() {
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
@@ -63,6 +54,11 @@ public abstract class EditForm<T extends AbstractEntity> extends FormLayout {
 
     public T getEntity() {
         return entity;
+    }
+
+    public void setEntity(T entity) {
+        this.entity = entity;
+        binder.readBean(this.entity);
     }
 
     @Override

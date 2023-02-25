@@ -15,7 +15,7 @@ import com.vaadin.flow.server.auth.AnonymousAllowed;
 public class LoginView extends VerticalLayout implements BeforeEnterObserver {
     private final LoginForm login = new LoginForm();
 
-    public LoginView(){
+    public LoginView() {
         addClassName("login-view");
         setSizeFull();
         setAlignItems(Alignment.CENTER);
@@ -28,7 +28,7 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
 
     @Override
     public void beforeEnter(BeforeEnterEvent beforeEnterEvent) {
-        if(beforeEnterEvent.getLocation()
+        if (beforeEnterEvent.getLocation()
                 .getQueryParameters()
                 .getParameters()
                 .containsKey("error")) {

@@ -21,11 +21,6 @@ public class PersonEditForm extends EditForm<Person> {
 
     private final TextField role = new TextField("Должность");
 
-    @Override
-    protected Person createEntity() {
-        return new Person();
-    }
-
     public PersonEditForm() {
         add(
                 firstName,
@@ -37,6 +32,11 @@ public class PersonEditForm extends EditForm<Person> {
                 createButtonsLayout()
         );
         configureBinder();
+    }
+
+    @Override
+    protected Person createEntity() {
+        return new Person();
     }
 
     @Override
