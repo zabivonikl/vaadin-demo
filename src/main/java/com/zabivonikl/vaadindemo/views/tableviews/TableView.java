@@ -12,16 +12,33 @@ import com.vaadin.flow.data.value.ValueChangeMode;
 import com.zabivonikl.vaadindemo.data.EditFormEvents;
 import com.zabivonikl.vaadindemo.data.entity.AbstractEntity;
 import com.zabivonikl.vaadindemo.data.service.AbstractService;
+import com.zabivonikl.vaadindemo.security.SecurityService;
+import com.zabivonikl.vaadindemo.security.data.entity.Role;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
+import java.util.Collection;
 
 @Uses(Icon.class)
 public abstract class TableView<T extends AbstractEntity> extends VerticalLayout {
     private final TextField filterText = new TextField();
-    protected final AbstractService<T> service;
+    protected final AbstractService<T> entityService;
+    private final SecurityService securityService;
     protected Grid<T> grid = new Grid<>();
     private EditForm<T> form;
 
-    public TableView(AbstractService<T> service) {
-        this.service = service;
+    private boolean isUserAdmin() {
+        String role = securityService.getAuthenticatedUser()
+                .getAuthorities()
+                .iterator().next()
+                .getAuthority();
+
+        return Role.valueOf(role) == Role.Admin;
+    }
+
+    public TableView(AbstractService<T> entityService, SecurityService securityService) {
+        this.entityService = entityService;
+        this.securityService = securityService;
 
         setPadding(true);
         addClassName("list-view");
@@ -56,13 +73,15 @@ public abstract class TableView<T extends AbstractEntity> extends VerticalLayout
     protected abstract EditForm<T> createForm();
 
     protected void saveEntity(EditFormEvents.SaveEvent event) {
-        service.add(form.getEntity());
+        if (!isUserAdmin()) return;
+        entityService.add(form.getEntity());
         updateList();
         closeEditor();
     }
 
     private void deleteEntity(EditFormEvents.DeleteEvent event) {
-        service.delete(form.getEntity());
+        if (!isUserAdmin()) return;
+        entityService.delete(form.getEntity());
         updateList();
         closeEditor();
     }
@@ -70,15 +89,19 @@ public abstract class TableView<T extends AbstractEntity> extends VerticalLayout
     private void configureGrid() {
         grid.setSizeFull();
         addGridColumns();
-        grid.asSingleSelect()
-                .addValueChangeListener(event -> editEntity(event.getValue()));
+        if (isUserAdmin())
+            grid.asSingleSelect()
+                    .addValueChangeListener(event -> editEntity(event.getValue()));
     }
 
     protected abstract void addGridColumns();
 
     private HorizontalLayout getToolbar() {
         initializeFilterText();
-        HorizontalLayout toolbar = new HorizontalLayout(filterText, getAddButton());
+        HorizontalLayout toolbar = isUserAdmin() ?
+                new HorizontalLayout(filterText, getAddButton()) :
+                new HorizontalLayout(filterText);
+
         toolbar.addClassName("toolbar");
 
         return toolbar;
@@ -99,11 +122,11 @@ public abstract class TableView<T extends AbstractEntity> extends VerticalLayout
     }
 
     private void updateList() {
-        grid.setItems(service.findAll(filterText.getValue()));
+        grid.setItems(entityService.findAll(filterText.getValue()));
     }
 
     public void editEntity(T entity) {
-        if (entity == null) {
+        if (!isUserAdmin() || entity == null) {
             closeEditor();
         } else {
             form.setEntity(entity);

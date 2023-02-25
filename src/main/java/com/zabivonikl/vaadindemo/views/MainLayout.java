@@ -26,7 +26,7 @@ public class MainLayout extends AppLayout {
         HorizontalLayout header = new HorizontalLayout();
         header.addClassNames("text-l", "m-m");
 
-        Button logout = new Button("Log out", e -> securityService.logout());
+        Button logout = new Button("Выход", e -> securityService.logout());
         Component navbar = getNavbar();
 
         header.add(getLayout(), navbar, logout);

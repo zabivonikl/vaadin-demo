@@ -7,8 +7,7 @@ import java.util.UUID;
 @Table(name="users")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator = "idGenerator")
-    @SequenceGenerator(name = "idGenerator")
+    @GeneratedValue
     private UUID id;
 
     private String login;

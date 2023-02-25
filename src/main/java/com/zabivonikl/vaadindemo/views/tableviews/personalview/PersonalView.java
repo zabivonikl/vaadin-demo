@@ -4,6 +4,7 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.zabivonikl.vaadindemo.data.entity.Person;
 import com.zabivonikl.vaadindemo.data.service.PersonService;
+import com.zabivonikl.vaadindemo.security.SecurityService;
 import com.zabivonikl.vaadindemo.views.MainLayout;
 import com.zabivonikl.vaadindemo.views.tableviews.TableView;
 
@@ -13,8 +14,8 @@ import javax.annotation.security.PermitAll;
 @Route(value = "personal", layout = MainLayout.class)
 @PermitAll
 public class PersonalView extends TableView<Person> {
-    public PersonalView(PersonService personService) {
-        super(personService);
+    public PersonalView(PersonService personService, SecurityService securityService) {
+        super(personService, securityService);
     }
 
     @Override

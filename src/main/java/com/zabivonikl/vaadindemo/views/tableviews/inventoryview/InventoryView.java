@@ -4,6 +4,7 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.zabivonikl.vaadindemo.data.entity.InventoryItem;
 import com.zabivonikl.vaadindemo.data.service.InventoryService;
+import com.zabivonikl.vaadindemo.security.SecurityService;
 import com.zabivonikl.vaadindemo.views.MainLayout;
 import com.zabivonikl.vaadindemo.views.tableviews.TableView;
 
@@ -14,8 +15,8 @@ import javax.annotation.security.PermitAll;
 @PermitAll
 public class InventoryView extends TableView<InventoryItem> {
 
-    public InventoryView(InventoryService inventoryService) {
-        super(inventoryService);
+    public InventoryView(InventoryService inventoryService, SecurityService securityService) {
+        super(inventoryService, securityService);
     }
 
     @Override
