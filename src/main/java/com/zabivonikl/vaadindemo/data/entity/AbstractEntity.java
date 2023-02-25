@@ -1,22 +1,23 @@
 package com.zabivonikl.vaadindemo.data.entity;
 
 import javax.persistence.*;
+import java.util.UUID;
 
 @MappedSuperclass
 public abstract class AbstractEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "idGenerator")
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "idGenerator")
     @SequenceGenerator(name = "idGenerator")
-    private Long id;
+    private UUID id;
 
     @Version
     private int version;
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

@@ -1,9 +1,11 @@
 package com.zabivonikl.vaadindemo.data.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
 @Entity
+@Table(name = "items")
 public class InventoryItem extends AbstractEntity {
     @NotEmpty
     private String title;

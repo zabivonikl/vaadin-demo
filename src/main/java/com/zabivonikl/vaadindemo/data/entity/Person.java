@@ -1,10 +1,12 @@
 package com.zabivonikl.vaadindemo.data.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import java.time.LocalDate;
 
 @Entity
+@Table(name = "persons")
 public class Person extends AbstractEntity {
     private String firstName;
     private String lastName;

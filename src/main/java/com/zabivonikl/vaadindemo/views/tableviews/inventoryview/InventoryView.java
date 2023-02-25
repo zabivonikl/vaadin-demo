@@ -7,8 +7,11 @@ import com.zabivonikl.vaadindemo.data.service.InventoryService;
 import com.zabivonikl.vaadindemo.views.MainLayout;
 import com.zabivonikl.vaadindemo.views.tableviews.TableView;
 
+import javax.annotation.security.PermitAll;
+
 @PageTitle("Инвентарь | Vaadin Demo")
 @Route(value = "inventory", layout = MainLayout.class)
+@PermitAll
 public class InventoryView extends TableView<InventoryItem> {
 
     public InventoryView(InventoryService inventoryService) {

@@ -2,23 +2,38 @@ package com.zabivonikl.vaadindemo.views;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.applayout.AppLayout;
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.NpmPackage;
 import com.vaadin.flow.component.html.*;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.theme.lumo.LumoUtility.*;
+import com.zabivonikl.vaadindemo.security.SecurityService;
 import com.zabivonikl.vaadindemo.views.tableviews.inventoryview.InventoryView;
 import com.zabivonikl.vaadindemo.views.tableviews.personalview.PersonalView;
 import com.zabivonikl.vaadindemo.views.welcomeview.WelcomeView;
 
 public class MainLayout extends AppLayout {
-    public MainLayout() {
+    private final SecurityService securityService;
+
+    public MainLayout(SecurityService securityService) {
+        this.securityService = securityService;
         addToNavbar(createHeaderContent());
     }
 
     private Component createHeaderContent() {
-        Header header = new Header();
-        header.addClassNames(BoxSizing.BORDER, Display.FLEX, FlexDirection.COLUMN, Width.FULL);
-        header.add(getLayout(), getNavbar());
+        HorizontalLayout header = new HorizontalLayout();
+        header.addClassNames("text-l", "m-m");
+
+        Button logout = new Button("Log out", e -> securityService.logout());
+        Component navbar = getNavbar();
+
+        header.add(getLayout(), navbar, logout);
+        header.setDefaultVerticalComponentAlignment(FlexComponent.Alignment.CENTER);
+        header.expand(navbar);
+        header.setWidth("100%");
+        header.addClassNames("py-0", "px-m");
 
         return header;
     }

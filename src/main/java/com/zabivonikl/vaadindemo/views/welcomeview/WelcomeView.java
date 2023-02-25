@@ -7,11 +7,13 @@ import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.server.auth.AnonymousAllowed;
 import com.vaadin.flow.theme.lumo.LumoUtility;
 import com.zabivonikl.vaadindemo.views.MainLayout;
 
 @Route(value = "", layout = MainLayout.class)
 @PageTitle("Добро пожаловать! | Vaadin Demo")
+@AnonymousAllowed
 public class WelcomeView extends Div implements HasStyle {
     public WelcomeView() {
         addClassNames(

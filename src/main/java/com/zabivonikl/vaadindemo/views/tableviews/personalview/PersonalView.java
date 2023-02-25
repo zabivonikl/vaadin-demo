@@ -7,8 +7,11 @@ import com.zabivonikl.vaadindemo.data.service.PersonService;
 import com.zabivonikl.vaadindemo.views.MainLayout;
 import com.zabivonikl.vaadindemo.views.tableviews.TableView;
 
+import javax.annotation.security.PermitAll;
+
 @PageTitle("Персонал | Vaadin Demo")
 @Route(value = "personal", layout = MainLayout.class)
+@PermitAll
 public class PersonalView extends TableView<Person> {
     public PersonalView(PersonService personService) {
         super(personService);
