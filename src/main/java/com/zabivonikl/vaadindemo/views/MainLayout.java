@@ -1,15 +1,19 @@
 package com.zabivonikl.vaadindemo.views;
 
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.NpmPackage;
 import com.vaadin.flow.component.html.*;
+import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.theme.lumo.LumoUtility.*;
 import com.zabivonikl.vaadindemo.security.SecurityService;
+import com.zabivonikl.vaadindemo.views.loginview.LoginView;
 import com.zabivonikl.vaadindemo.views.tableviews.inventoryview.InventoryView;
 import com.zabivonikl.vaadindemo.views.tableviews.personalview.PersonalView;
 import com.zabivonikl.vaadindemo.views.welcomeview.WelcomeView;
@@ -26,16 +30,27 @@ public class MainLayout extends AppLayout {
         HorizontalLayout header = new HorizontalLayout();
         header.addClassNames("text-l", "m-m");
 
-        Button logout = new Button("Выход", e -> securityService.logout());
         Component navbar = getNavbar();
 
-        header.add(getLayout(), navbar, logout);
+        header.add(getLayout(), navbar, isUserLoggedIn() ? getLogoutButton() : getLoginButton());
         header.setDefaultVerticalComponentAlignment(FlexComponent.Alignment.CENTER);
         header.expand(navbar);
         header.setWidth("100%");
         header.addClassNames("py-0", "px-m");
 
         return header;
+    }
+
+    private boolean isUserLoggedIn() {
+        return securityService.getAuthenticatedUser() != null;
+    }
+
+    private Button getLogoutButton() {
+        return new Button("Выход", e -> securityService.logout());
+    }
+
+    private Button getLoginButton() {
+        return new Button("Вход", e -> UI.getCurrent().navigate(LoginView.class));
     }
 
     private Component getLayout() {
@@ -47,13 +62,16 @@ public class MainLayout extends AppLayout {
     }
 
     private Component getAppName() {
-        H1 appName = new H1(new MenuItemInfo.LineAwesomeIcon("la la-vaadin"));
-        appName.add("Vaadin Demo");
-        appName.addClassNames(Margin.Vertical.MEDIUM, Margin.End.AUTO, FontSize.LARGE);
-        RouterLink link = new RouterLink(WelcomeView.class);
-        link.addClassNames(TextColor.BODY);
-        link.add(appName);
-        return link;
+        Icon icon = new Icon(VaadinIcon.VAADIN_H);
+        H1 title = new H1("Vaadin Demo");
+        title.addClassNames(FontSize.XLARGE, Margin.Vertical.MEDIUM);
+
+        HorizontalLayout appName = new HorizontalLayout(icon, title);
+        appName.addClassNames(Display.FLEX, AlignItems.CENTER);
+        RouterLink logo = new RouterLink(WelcomeView.class);
+        logo.add(appName);
+
+        return logo;
     }
 
     private Component getNavbar() {
@@ -87,13 +105,17 @@ public class MainLayout extends AppLayout {
         public MenuItemInfo(String menuTitle, String iconClass, Class<? extends Component> view) {
             this.view = view;
             RouterLink link = new RouterLink();
-            // Use Lumo classnames for various styling
-            link.addClassNames(Display.FLEX, Gap.XSMALL, Height.MEDIUM, AlignItems.CENTER, Padding.Horizontal.SMALL,
-                    TextColor.BODY);
+            link.addClassNames(
+                    Display.FLEX,
+                    Gap.XSMALL,
+                    Height.MEDIUM,
+                    AlignItems.CENTER,
+                    Padding.Horizontal.SMALL,
+                    TextColor.BODY
+            );
             link.setRoute(view);
 
             Span text = new Span(menuTitle);
-            // Use Lumo classnames for various styling
             text.addClassNames(FontWeight.MEDIUM, FontSize.MEDIUM, Whitespace.NOWRAP);
 
             link.add(new LineAwesomeIcon(iconClass), text);
@@ -111,7 +133,6 @@ public class MainLayout extends AppLayout {
         @NpmPackage(value = "line-awesome", version = "1.3.0")
         public static class LineAwesomeIcon extends Span {
             public LineAwesomeIcon(String lineawesomeClassnames) {
-                // Use Lumo classnames for suitable font styling
                 addClassNames(FontSize.LARGE, TextColor.SECONDARY);
                 if (!lineawesomeClassnames.isEmpty()) {
                     addClassNames(lineawesomeClassnames);
