@@ -4,6 +4,7 @@ import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.validator.EmailValidator;
+import com.vaadin.flow.data.validator.RegexpValidator;
 import com.zabivonikl.vaadindemo.data.entity.Person;
 import com.zabivonikl.vaadindemo.views.tableviews.EditForm;
 
@@ -41,17 +42,33 @@ public class PersonEditForm extends EditForm<Person> {
     @Override
     protected void configureBinder() {
         binder.forField(firstName)
+                .withValidator(
+                        value -> !value.isEmpty(),
+                        "Поле должно быть заполнено"
+                )
                 .bind(Person::getFirstName, Person::setFirstName);
         binder.forField(lastName)
+                .withValidator(
+                        value -> !value.isEmpty(),
+                        "Поле должно быть заполнено"
+                )
                 .bind(Person::getLastName, Person::setLastName);
         binder.forField(email)
-                .withValidator(new EmailValidator("Неверный формат"))
+                .withValidator(new EmailValidator("Неверный формат почты"))
                 .bind(Person::getEmail, Person::setEmail);
         binder.forField(phone)
+                .withValidator(new RegexpValidator(
+                        "Неверный формат номера",
+                        "^((8|\\+7)[\\- ]?)?(\\(?\\d{3}\\)?[\\- ]?)?[\\d\\- ]{7,10}$"
+                ))
                 .bind(Person::getPhone, Person::setPhone);
         binder.forField(dateOfBirth)
                 .bind(Person::getDateOfBirth, Person::setDateOfBirth);
         binder.forField(role)
+                .withValidator(
+                        value -> !value.isEmpty(),
+                        "Поле должно быть заполнено"
+                )
                 .bind(Person::getRole, Person::setRole);
     }
 
