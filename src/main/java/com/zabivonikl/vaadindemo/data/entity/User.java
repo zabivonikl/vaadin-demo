@@ -1,11 +1,13 @@
 package com.zabivonikl.vaadindemo.data.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "users")
 public class User extends AbstractEntity {
+    @Column(unique = true)
     private String login;
 
     private String password;
@@ -34,5 +36,13 @@ public class User extends AbstractEntity {
 
     public void setRole(Role role) {
         this.role = role.name();
+    }
+
+    public String getRoleString() {
+        return role;
+    }
+
+    public void setRoleString(String role) {
+        this.role = Role.valueOf(role).name();
     }
 }
