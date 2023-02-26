@@ -1,6 +1,6 @@
-package com.zabivonikl.vaadindemo.security.data.service.repository;
+package com.zabivonikl.vaadindemo.data.service.repositories;
 
-import com.zabivonikl.vaadindemo.security.data.entity.User;
+import com.zabivonikl.vaadindemo.data.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;

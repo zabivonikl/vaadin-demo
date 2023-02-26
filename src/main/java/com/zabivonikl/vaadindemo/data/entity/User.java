@@ -1,4 +1,4 @@
-package com.zabivonikl.vaadindemo.security.data.entity;
+package com.zabivonikl.vaadindemo.data.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,11 +8,7 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "users")
-public class User {
-    @Id
-    @GeneratedValue
-    private UUID id;
-
+public class User extends AbstractEntity {
     private String login;
 
     private String password;

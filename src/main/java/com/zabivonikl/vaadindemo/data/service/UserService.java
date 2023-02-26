@@ -1,7 +1,7 @@
-package com.zabivonikl.vaadindemo.security.data.service;
+package com.zabivonikl.vaadindemo.data.service;
 
-import com.zabivonikl.vaadindemo.security.data.entity.User;
-import com.zabivonikl.vaadindemo.security.data.service.repository.UserRepository;
+import com.zabivonikl.vaadindemo.data.entity.User;
+import com.zabivonikl.vaadindemo.data.service.repositories.UserRepository;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

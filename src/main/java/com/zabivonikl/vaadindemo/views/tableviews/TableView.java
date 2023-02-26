@@ -14,7 +14,7 @@ import com.zabivonikl.vaadindemo.data.EditFormEvents;
 import com.zabivonikl.vaadindemo.data.entity.AbstractEntity;
 import com.zabivonikl.vaadindemo.data.service.AbstractService;
 import com.zabivonikl.vaadindemo.security.SecurityService;
-import com.zabivonikl.vaadindemo.security.data.entity.Role;
+import com.zabivonikl.vaadindemo.data.entity.Role;
 
 @Uses(Icon.class)
 public abstract class TableView<T extends AbstractEntity> extends VerticalLayout {
