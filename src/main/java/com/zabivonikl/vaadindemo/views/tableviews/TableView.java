@@ -12,9 +12,9 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.zabivonikl.vaadindemo.data.EditFormEvents;
 import com.zabivonikl.vaadindemo.data.entity.AbstractEntity;
+import com.zabivonikl.vaadindemo.data.entity.Role;
 import com.zabivonikl.vaadindemo.data.service.AbstractService;
 import com.zabivonikl.vaadindemo.security.SecurityService;
-import com.zabivonikl.vaadindemo.data.entity.Role;
 
 @Uses(Icon.class)
 public abstract class TableView<T extends AbstractEntity> extends VerticalLayout {
