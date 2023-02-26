@@ -1,5 +1,6 @@
 package com.zabivonikl.vaadindemo.views.registerview;
 
+import com.vaadin.flow.component.AbstractField;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.H1;
@@ -9,7 +10,9 @@ import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
+import com.vaadin.flow.data.binder.Setter;
 import com.vaadin.flow.data.binder.ValidationException;
+import com.vaadin.flow.function.ValueProvider;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
@@ -58,15 +61,16 @@ public class RegisterView extends VerticalLayout {
     }
 
     private void configureBinder() {
-        binder.forField(login)
-                .withValidator(value -> !value.isEmpty(), "Поле должно быть заполнено")
-                .bind(User::getLogin, User::setLogin);
-        binder.forField(password)
-                .withValidator(value -> !value.isEmpty(), "Поле должно быть заполнено")
-                .bind(User::getPassword, User::setPassword);
-        binder.forField(role)
-                .bind(User::getRoleString, User::setRoleString);
+        bindField(login, User::getLogin, User::setLogin);
+        bindField(password, User::getPassword, User::setPassword);
+        bindField(role, User::getRoleString, User::setRoleString);
         binder.addStatusChangeListener(e -> register.setEnabled(binder.isValid()));
+    }
+
+    private void bindField(AbstractField<?, String> field, ValueProvider<User, String> valueProvider, Setter<User, String> setterBindTextField) {
+        binder.forField(field)
+                .withValidator(value -> !value.isEmpty(), "Поле должно быть заполнено")
+                .bind(valueProvider, setterBindTextField);
     }
 
     private void configureRegisterButton() {

@@ -4,6 +4,7 @@ import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.NpmPackage;
 import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.icon.Icon;
@@ -14,6 +15,7 @@ import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.theme.lumo.LumoUtility.*;
 import com.zabivonikl.vaadindemo.security.SecurityService;
 import com.zabivonikl.vaadindemo.views.loginview.LoginView;
+import com.zabivonikl.vaadindemo.views.registerview.RegisterView;
 import com.zabivonikl.vaadindemo.views.tableviews.inventoryview.InventoryView;
 import com.zabivonikl.vaadindemo.views.tableviews.personalview.PersonalView;
 import com.zabivonikl.vaadindemo.views.welcomeview.WelcomeView;
@@ -33,6 +35,8 @@ public class MainLayout extends AppLayout {
         Component navbar = getNavbar();
 
         header.add(getLayout(), navbar, isUserLoggedIn() ? getLogoutButton() : getLoginButton());
+        if (!isUserLoggedIn())
+            header.add(getRegisterButton());
         header.setDefaultVerticalComponentAlignment(FlexComponent.Alignment.CENTER);
         header.expand(navbar);
         header.setWidth("100%");
@@ -46,11 +50,21 @@ public class MainLayout extends AppLayout {
     }
 
     private Button getLogoutButton() {
-        return new Button("Выход", e -> securityService.logout());
+        Button button = new Button(new Icon(VaadinIcon.EXIT_O), e -> securityService.logout());
+        button.addThemeVariants(ButtonVariant.LUMO_ERROR);
+        return button;
     }
 
     private Button getLoginButton() {
-        return new Button("Вход", e -> UI.getCurrent().navigate(LoginView.class));
+        Button button = new Button("Вход", e -> UI.getCurrent().navigate(LoginView.class));
+        button.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+        return button;
+    }
+
+    private Button getRegisterButton() {
+        Button button = new Button("Регистрация", e -> UI.getCurrent().navigate(RegisterView.class));
+        button.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
+        return button;
     }
 
     private Component getLayout() {
