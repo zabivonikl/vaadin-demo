@@ -23,9 +23,12 @@ public class UserService implements UserDetailsService {
     }
 
     public User add(User user) {
-        String encodedPassword = passwordEncoder.encode(user.getPassword());
-        user.setPassword(encodedPassword);
+        user.setPassword(getEncodedPassword(user));
         return repository.save(user);
+    }
+
+    private String getEncodedPassword(User user) {
+        return passwordEncoder.encode(user.getPassword());
     }
 
     @Override
