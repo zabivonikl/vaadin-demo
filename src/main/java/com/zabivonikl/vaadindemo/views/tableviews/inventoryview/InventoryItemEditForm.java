@@ -31,6 +31,7 @@ public class InventoryItemEditForm extends EditForm<InventoryItem> {
 
     private IntegerField getPiecesLeftField() {
         IntegerField field = new IntegerField("Осталось шт.");
+        field.setValue(0);
         field.setMin(0);
         field.setMax(Integer.MAX_VALUE);
         field.setErrorMessage("Количество должно быть больше 0");
@@ -39,6 +40,7 @@ public class InventoryItemEditForm extends EditForm<InventoryItem> {
 
     private NumberField getPriceField() {
         NumberField field = new NumberField("Цена");
+        field.setValue(0d);
         field.setMin(0);
         field.setMax(Integer.MAX_VALUE);
         field.setStep(.01);
