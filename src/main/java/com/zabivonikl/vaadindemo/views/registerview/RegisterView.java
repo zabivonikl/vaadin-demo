@@ -33,6 +33,8 @@ public class RegisterView extends VerticalLayout {
 
     private final PasswordField password = getPasswordField();
 
+    private final PasswordField passwordConfirmation = getPasswordConfirmationField();
+
     private final Select<String> role = getRoleSelector();
 
     private final Button register = getRegisterButton();
@@ -48,6 +50,7 @@ public class RegisterView extends VerticalLayout {
                 header,
                 login,
                 password,
+                passwordConfirmation,
                 role,
                 register
         );
@@ -57,6 +60,12 @@ public class RegisterView extends VerticalLayout {
 
     private PasswordField getPasswordField() {
         return new PasswordField("Пароль");
+    }
+
+    private PasswordField getPasswordConfirmationField() {
+        PasswordField passwordField = new PasswordField("Пароль ещё раз");
+        passwordField.addValueChangeListener(e -> binder.validate());
+        return passwordField;
     }
 
     private Button getRegisterButton() {
@@ -80,6 +89,7 @@ public class RegisterView extends VerticalLayout {
                 .bind(User::getLogin, User::setLogin);
         binder.forField(password)
                 .asRequired("Поле должно быть заполнено")
+                .withValidator(new PasswordValidator(password, passwordConfirmation))
                 .bind(User::getPassword, User::setPassword);
         binder.forField(role)
                 .asRequired("Поле должно быть заполнено")
