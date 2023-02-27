@@ -42,18 +42,13 @@ public class PersonEditForm extends EditForm<Person> {
     @Override
     protected void configureBinder() {
         binder.forField(firstName)
-                .withValidator(
-                        value -> !value.isEmpty(),
-                        "Поле должно быть заполнено"
-                )
+                .asRequired("Поле должно быть заполнено")
                 .bind(Person::getFirstName, Person::setFirstName);
         binder.forField(lastName)
-                .withValidator(
-                        value -> !value.isEmpty(),
-                        "Поле должно быть заполнено"
-                )
+                .asRequired("Поле должно быть заполнено")
                 .bind(Person::getLastName, Person::setLastName);
         binder.forField(email)
+                .asRequired("Поле должно быть заполнено")
                 .withValidator(new EmailValidator("Неверный формат почты"))
                 .bind(Person::getEmail, Person::setEmail);
         binder.forField(phone)
@@ -65,10 +60,7 @@ public class PersonEditForm extends EditForm<Person> {
         binder.forField(dateOfBirth)
                 .bind(Person::getDateOfBirth, Person::setDateOfBirth);
         binder.forField(role)
-                .withValidator(
-                        value -> !value.isEmpty(),
-                        "Поле должно быть заполнено"
-                )
+                .asRequired("Поле должно быть заполнено")
                 .bind(Person::getRole, Person::setRole);
     }
 

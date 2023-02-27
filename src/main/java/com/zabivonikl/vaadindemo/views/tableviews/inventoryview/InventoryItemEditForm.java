@@ -40,24 +40,16 @@ public class InventoryItemEditForm extends EditForm<InventoryItem> {
     @Override
     protected void configureBinder() {
         binder.forField(title)
-                .withValidator(
-                        value -> !value.isEmpty(),
-                        "Поле должно быть заполнено"
-                )
+                .asRequired("Поле должно быть заполнено")
                 .bind(InventoryItem::getTitle, InventoryItem::setTitle);
         binder.forField(vendor)
-                .withValidator(
-                        value -> !value.isEmpty(),
-                        "Поле должно быть заполнено"
-                )
+                .asRequired("Поле должно быть заполнено")
                 .bind(InventoryItem::getVendor, InventoryItem::setVendor);
         binder.forField(category)
-                .withValidator(
-                        value -> !value.isEmpty(),
-                        "Поле должно быть заполнено"
-                )
+                .asRequired("Поле должно быть заполнено")
                 .bind(InventoryItem::getCategory, InventoryItem::setCategory);
         binder.forField(piecesLeft)
+                .asRequired("Поле должно быть заполнено")
                 .withValidator(new IntegerRangeValidator(
                         "Количество должно быть больше 0",
                         0,
@@ -65,6 +57,7 @@ public class InventoryItemEditForm extends EditForm<InventoryItem> {
                 ))
                 .bind(InventoryItem::getPiecesLeft, InventoryItem::setPiecesLeft);
         binder.forField(price)
+                .asRequired("Поле должно быть заполнено")
                 .withValidator(new DoubleRangeValidator(
                         "Цена должна быть больше 0",
                         0d,

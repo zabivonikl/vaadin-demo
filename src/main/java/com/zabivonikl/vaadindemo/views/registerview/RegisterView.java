@@ -69,7 +69,7 @@ public class RegisterView extends VerticalLayout {
 
     private void bindField(AbstractField<?, String> field, ValueProvider<User, String> valueProvider, Setter<User, String> setterBindTextField) {
         binder.forField(field)
-                .withValidator(value -> !value.isEmpty(), "Поле должно быть заполнено")
+                .asRequired("Поле должно быть заполнено")
                 .bind(valueProvider, setterBindTextField);
     }
 
