@@ -31,11 +31,11 @@ public class RegisterView extends VerticalLayout {
 
     private final TextField login = new TextField("Логин");
 
-    private final PasswordField password = new PasswordField("Пароль");
+    private final PasswordField password = getPasswordField();
 
-    private final Select<String> role = new Select<>();
+    private final Select<String> role = getRoleSelector();
 
-    private final Button register = new Button("Зарегистрироваться");
+    private final Button register = getRegisterButton();
 
     public RegisterView(UserService userService) {
         this.userService = userService;
@@ -53,8 +53,24 @@ public class RegisterView extends VerticalLayout {
         );
 
         configureBinder();
-        configureRegisterButton();
-        configureRoleSelector();
+    }
+
+    private PasswordField getPasswordField() {
+        return new PasswordField("Пароль");
+    }
+
+    private Button getRegisterButton() {
+        Button button = new Button("Зарегистрироваться");
+        button.addClickListener(e -> onCreateUser());
+        return button;
+    }
+
+    private Select<String> getRoleSelector() {
+        Select<String> select = new Select<>();
+        select.setLabel("Роль");
+        select.setItems(Role.getNames());
+        select.setPlaceholder("Роль...");
+        return select;
     }
 
     private void configureBinder() {
@@ -69,16 +85,6 @@ public class RegisterView extends VerticalLayout {
                 .asRequired("Поле должно быть заполнено")
                 .bind(User::getRoleString, User::setRoleString);
         binder.addStatusChangeListener(e -> register.setEnabled(binder.isValid()));
-    }
-
-    private void configureRegisterButton() {
-        register.addClickListener(e -> onCreateUser());
-    }
-
-    private void configureRoleSelector() {
-        role.setLabel("Роль");
-        role.setItems(Role.getNames());
-        role.setPlaceholder("Роль...");
     }
 
     private void onCreateUser() {
