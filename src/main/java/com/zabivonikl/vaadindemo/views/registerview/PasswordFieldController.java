@@ -5,11 +5,11 @@ import com.vaadin.flow.data.binder.ValidationResult;
 import com.vaadin.flow.data.binder.Validator;
 import com.vaadin.flow.data.binder.ValueContext;
 
-public class PasswordValidator implements Validator<String> {
+public class PasswordFieldController implements Validator<String> {
     private final PasswordField password;
     private final PasswordField passwordConfirmation;
 
-    public PasswordValidator(PasswordField password, PasswordField passwordConfirmation) {
+    public PasswordFieldController(PasswordField password, PasswordField passwordConfirmation) {
         this.password = password;
         this.passwordConfirmation = passwordConfirmation;
     }
@@ -24,14 +24,24 @@ public class PasswordValidator implements Validator<String> {
 
     @Override
     public ValidationResult apply(String s, ValueContext valueContext) {
-        passwordConfirmation.setInvalid(false);
+        disableInvalidPasswordConfirmation();
         if (getPassword() == null || getPassword().length() < 8)
             return ValidationResult.error("Пароль должен содержать более 8 символов");
 
         if (getPasswordConfirmation() != null && getPassword().equals(getPasswordConfirmation()))
             return ValidationResult.ok();
 
-        passwordConfirmation.setInvalid(true);
+        enableInvalidPasswordConfirmation();
         return ValidationResult.error("Пароли не совпадают");
+    }
+
+    private void enableInvalidPasswordConfirmation() {
+        passwordConfirmation.setInvalid(true);
+        passwordConfirmation.setErrorMessage("Пароли не совпадают");
+    }
+
+    private void disableInvalidPasswordConfirmation() {
+        passwordConfirmation.setInvalid(false);
+        passwordConfirmation.setErrorMessage(null);
     }
 }
