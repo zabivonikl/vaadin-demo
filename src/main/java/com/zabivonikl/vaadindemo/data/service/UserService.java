@@ -27,6 +27,10 @@ public class UserService implements UserDetailsService {
         return repository.save(user);
     }
 
+    public boolean isLoginAvailable(String login) {
+        return repository.findByLogin(login) == null;
+    }
+
     private String getEncodedPassword(User user) {
         return passwordEncoder.encode(user.getPassword());
     }

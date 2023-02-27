@@ -3,8 +3,6 @@ package com.zabivonikl.vaadindemo.views.tableviews.inventoryview;
 import com.vaadin.flow.component.textfield.IntegerField;
 import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.data.validator.DoubleRangeValidator;
-import com.vaadin.flow.data.validator.IntegerRangeValidator;
 import com.zabivonikl.vaadindemo.data.entity.InventoryItem;
 import com.zabivonikl.vaadindemo.views.tableviews.EditForm;
 
@@ -15,21 +13,37 @@ public class InventoryItemEditForm extends EditForm<InventoryItem> {
 
     public final TextField category = new TextField("Категория");
 
-    public final IntegerField piecesLeft = new IntegerField("Осталось шт.");
+    public final IntegerField piecesLeft = getPiecesLeftField();
 
-    public final NumberField price = new NumberField("Цена");
+    public final NumberField price = getPriceField();
 
     public InventoryItemEditForm() {
-        super();
         add(
                 title,
                 vendor,
                 category,
-                piecesLeft,
                 price,
+                piecesLeft,
                 createButtonsLayout()
         );
         configureBinder();
+    }
+
+    private IntegerField getPiecesLeftField() {
+        IntegerField field = new IntegerField("Осталось шт.");
+        field.setMin(0);
+        field.setMax(Integer.MAX_VALUE);
+        field.setErrorMessage("Количество должно быть больше 0");
+        return field;
+    }
+
+    private NumberField getPriceField() {
+        NumberField field = new NumberField("Цена");
+        field.setMin(0);
+        field.setMax(Integer.MAX_VALUE);
+        field.setStep(.01);
+        field.setErrorMessage("Цена должна быть больше 0,00₽");
+        return field;
     }
 
     @Override
@@ -48,22 +62,12 @@ public class InventoryItemEditForm extends EditForm<InventoryItem> {
         binder.forField(category)
                 .asRequired("Поле должно быть заполнено")
                 .bind(InventoryItem::getCategory, InventoryItem::setCategory);
-        binder.forField(piecesLeft)
-                .asRequired("Поле должно быть заполнено")
-                .withValidator(new IntegerRangeValidator(
-                        "Количество должно быть больше 0",
-                        0,
-                        Integer.MAX_VALUE
-                ))
-                .bind(InventoryItem::getPiecesLeft, InventoryItem::setPiecesLeft);
         binder.forField(price)
                 .asRequired("Поле должно быть заполнено")
-                .withValidator(new DoubleRangeValidator(
-                        "Цена должна быть больше 0",
-                        0d,
-                        Double.MAX_VALUE
-                ))
                 .bind(InventoryItem::getPrice, InventoryItem::setPrice);
+        binder.forField(piecesLeft)
+                .asRequired("Поле должно быть заполнено")
+                .bind(InventoryItem::getPiecesLeft, InventoryItem::setPiecesLeft);
     }
 
 }

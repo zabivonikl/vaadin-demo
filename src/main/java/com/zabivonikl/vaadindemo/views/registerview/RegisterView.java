@@ -1,6 +1,5 @@
 package com.zabivonikl.vaadindemo.views.registerview;
 
-import com.vaadin.flow.component.AbstractField;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.H1;
@@ -10,9 +9,7 @@ import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
-import com.vaadin.flow.data.binder.Setter;
 import com.vaadin.flow.data.binder.ValidationException;
-import com.vaadin.flow.function.ValueProvider;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
@@ -61,16 +58,17 @@ public class RegisterView extends VerticalLayout {
     }
 
     private void configureBinder() {
-        bindField(login, User::getLogin, User::setLogin);
-        bindField(password, User::getPassword, User::setPassword);
-        bindField(role, User::getRoleString, User::setRoleString);
-        binder.addStatusChangeListener(e -> register.setEnabled(binder.isValid()));
-    }
-
-    private void bindField(AbstractField<?, String> field, ValueProvider<User, String> valueProvider, Setter<User, String> setterBindTextField) {
-        binder.forField(field)
+        binder.forField(login)
                 .asRequired("Поле должно быть заполнено")
-                .bind(valueProvider, setterBindTextField);
+                .withValidator(userService::isLoginAvailable, "Логин уже занят")
+                .bind(User::getLogin, User::setLogin);
+        binder.forField(password)
+                .asRequired("Поле должно быть заполнено")
+                .bind(User::getPassword, User::setPassword);
+        binder.forField(role)
+                .asRequired("Поле должно быть заполнено")
+                .bind(User::getRoleString, User::setRoleString);
+        binder.addStatusChangeListener(e -> register.setEnabled(binder.isValid()));
     }
 
     private void configureRegisterButton() {
