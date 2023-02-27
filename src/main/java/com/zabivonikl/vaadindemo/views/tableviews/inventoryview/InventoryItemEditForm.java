@@ -69,5 +69,4 @@ public class InventoryItemEditForm extends EditForm<InventoryItem> {
                 .asRequired("Поле должно быть заполнено")
                 .bind(InventoryItem::getPiecesLeft, InventoryItem::setPiecesLeft);
     }
-
 }

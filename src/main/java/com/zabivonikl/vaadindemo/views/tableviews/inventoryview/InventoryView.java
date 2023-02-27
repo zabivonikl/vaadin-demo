@@ -29,8 +29,12 @@ public class InventoryView extends TableView<InventoryItem> {
         grid.addColumn(InventoryItem::getVendor).setHeader("Производитель");
         grid.addColumn(InventoryItem::getTitle).setHeader("Название");
         grid.addColumn(InventoryItem::getCategory).setHeader("Категория");
-        grid.addColumn(InventoryItem::getFormatedPrice).setHeader("Цена");
+        grid.addColumn(this::getFormattedPrice).setHeader("Цена");
         grid.addColumn(InventoryItem::getPiecesLeft).setHeader("Количество");
         grid.getColumns().forEach(column -> column.setAutoWidth(true));
+    }
+
+    private String getFormattedPrice(InventoryItem item) {
+        return String.format("%.2f₽",item.getPrice());
     }
 }

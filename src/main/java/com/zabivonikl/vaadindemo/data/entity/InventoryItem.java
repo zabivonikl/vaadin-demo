@@ -38,7 +38,7 @@ public class InventoryItem extends AbstractEntity {
         this.category = category;
     }
 
-    public double getPrice() {
+    public Double getPrice() {
         return price;
     }
 
@@ -46,11 +46,7 @@ public class InventoryItem extends AbstractEntity {
         this.price = price;
     }
 
-    public String getFormatedPrice() {
-        return Double.toString(price) + '₽';
-    }
-
-    public int getPiecesLeft() {
+    public Integer getPiecesLeft() {
         return piecesLeft;
     }
 

@@ -3,6 +3,7 @@ package com.zabivonikl.vaadindemo.views.tableviews.personalview;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.textfield.EmailField;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.binder.Validator;
 import com.vaadin.flow.data.validator.EmailValidator;
 import com.vaadin.flow.data.validator.RegexpValidator;
 import com.zabivonikl.vaadindemo.data.entity.Person;
@@ -52,10 +53,7 @@ public class PersonEditForm extends EditForm<Person> {
                 .withValidator(new EmailValidator("Неверный формат почты"))
                 .bind(Person::getEmail, Person::setEmail);
         binder.forField(phone)
-                .withValidator(new RegexpValidator(
-                        "Неверный формат номера",
-                        "^((8|\\+7)[\\- ]?)?(\\(?\\d{3}\\)?[\\- ]?)?[\\d\\- ]{7,10}$"
-                ))
+                .withValidator(getPhoneValidator())
                 .bind(Person::getPhone, Person::setPhone);
         binder.forField(dateOfBirth)
                 .bind(Person::getDateOfBirth, Person::setDateOfBirth);
@@ -64,4 +62,8 @@ public class PersonEditForm extends EditForm<Person> {
                 .bind(Person::getRole, Person::setRole);
     }
 
+    private Validator<String> getPhoneValidator() {
+        String regex = "^((8|\\+7)[\\- ]?)?(\\(?\\d{3}\\)?[\\- ]?)?[\\d\\- ]{7,10}$";
+        return new RegexpValidator("Неверный формат номера", regex);
+    }
 }
