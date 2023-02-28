@@ -63,20 +63,20 @@ public class RegisterView extends VerticalLayout {
     }
 
     private PasswordField getPasswordConfirmationField() {
-        PasswordField passwordField = new PasswordField("Пароль ещё раз");
+        var passwordField = new PasswordField("Пароль ещё раз");
         passwordField.addValueChangeListener(e -> binder.validate());
         passwordField.setRequired(true);
         return passwordField;
     }
 
     private Button getRegisterButton() {
-        Button button = new Button("Зарегистрироваться");
+        var button = new Button("Зарегистрироваться");
         button.addClickListener(e -> onCreateUser());
         return button;
     }
 
     private Select<String> getRoleSelector() {
-        Select<String> select = new Select<>();
+        var select = new Select<String>();
         select.setLabel("Роль");
         select.setItems(Role.getNames());
         select.setPlaceholder("Роль...");
@@ -100,7 +100,7 @@ public class RegisterView extends VerticalLayout {
 
     private void onCreateUser() {
         try {
-            User user = new User();
+            var user = new User();
             binder.writeBean(user);
             userService.add(user);
             UI.getCurrent().navigate(LoginView.class);

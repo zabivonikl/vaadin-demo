@@ -63,7 +63,7 @@ public class PersonEditForm extends EditForm<Person> {
     }
 
     private Validator<String> getPhoneValidator() {
-        String regex = "^((8|\\+7)[\\- ]?)?(\\(?\\d{3}\\)?[\\- ]?)?[\\d\\- ]{7,10}$";
+        var regex = "^((8|\\+7)[\\- ]?)?(\\(?\\d{3}\\)?[\\- ]?)?[\\d\\- ]{7,10}$";
         return new RegexpValidator("Неверный формат номера", regex);
     }
 }

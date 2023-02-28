@@ -27,10 +27,6 @@ public abstract class AbstractService<T extends AbstractEntity> {
         return repository.save(entity);
     }
 
-    public void delete(Long id) {
-        repository.deleteById(id);
-    }
-
     public void delete(T entity) {
         repository.delete(entity);
     }
@@ -39,22 +35,12 @@ public abstract class AbstractService<T extends AbstractEntity> {
         return repository.findAll(pageable);
     }
 
-    /*
-    public Page<T> list(Pageable pageable, Specification<T> filter) {
-        return repository.findAll(filter, pageable);
-    }
-    */
-
     public List<T> findAll(String stringFilter) {
         if (stringFilter == null || stringFilter.isEmpty()) {
             return repository.findAll();
         } else {
             return repository.search(stringFilter);
         }
-    }
-
-    public int count() {
-        return (int) repository.count();
     }
 
 }

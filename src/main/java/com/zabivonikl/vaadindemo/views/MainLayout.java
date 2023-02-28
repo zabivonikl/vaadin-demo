@@ -29,10 +29,10 @@ public class MainLayout extends AppLayout {
     }
 
     private Component createHeaderContent() {
-        HorizontalLayout header = new HorizontalLayout();
+        var header = new HorizontalLayout();
         header.addClassNames("text-l", "m-m");
 
-        Component navbar = getNavbar();
+        var navbar = getNavbar();
 
         header.add(getLayout(), navbar, isUserLoggedIn() ? getLogoutButton() : getLoginButton());
         if (!isUserLoggedIn())
@@ -50,25 +50,25 @@ public class MainLayout extends AppLayout {
     }
 
     private Button getLogoutButton() {
-        Button button = new Button(new Icon(VaadinIcon.EXIT_O), e -> securityService.logout());
+        var button = new Button(new Icon(VaadinIcon.EXIT_O), e -> securityService.logout());
         button.addThemeVariants(ButtonVariant.LUMO_ERROR);
         return button;
     }
 
     private Button getLoginButton() {
-        Button button = new Button("Вход", e -> UI.getCurrent().navigate(LoginView.class));
+        var button = new Button("Вход", e -> UI.getCurrent().navigate(LoginView.class));
         button.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         return button;
     }
 
     private Button getRegisterButton() {
-        Button button = new Button("Регистрация", e -> UI.getCurrent().navigate(RegisterView.class));
+        var button = new Button("Регистрация", e -> UI.getCurrent().navigate(RegisterView.class));
         button.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
         return button;
     }
 
     private Component getLayout() {
-        Div layout = new Div();
+        var layout = new Div();
         layout.addClassNames(Display.FLEX, AlignItems.CENTER, Padding.Horizontal.LARGE);
         layout.add(getAppName());
 
@@ -76,20 +76,20 @@ public class MainLayout extends AppLayout {
     }
 
     private Component getAppName() {
-        Icon icon = new Icon(VaadinIcon.VAADIN_H);
-        H1 title = new H1("Vaadin Demo");
+        var icon = new Icon(VaadinIcon.VAADIN_H);
+        var title = new H1("Vaadin Demo");
         title.addClassNames(FontSize.XLARGE, Margin.Vertical.MEDIUM);
 
-        HorizontalLayout appName = new HorizontalLayout(icon, title);
+        var appName = new HorizontalLayout(icon, title);
         appName.addClassNames(Display.FLEX, AlignItems.CENTER);
-        RouterLink logo = new RouterLink(WelcomeView.class);
+        var logo = new RouterLink(WelcomeView.class);
         logo.add(appName);
 
         return logo;
     }
 
     private Component getNavbar() {
-        Nav nav = new Nav();
+        var nav = new Nav();
         nav.addClassNames(Display.FLEX, Overflow.AUTO, Padding.Horizontal.MEDIUM, Padding.Vertical.XSMALL);
         nav.add(getMenuItems());
 
@@ -97,7 +97,7 @@ public class MainLayout extends AppLayout {
     }
 
     private UnorderedList getMenuItems() {
-        UnorderedList list = new UnorderedList();
+        var list = new UnorderedList();
         list.addClassNames(Display.FLEX, Gap.SMALL, ListStyleType.NONE, Margin.NONE, Padding.NONE);
         for (MenuItemInfo menuItem : createMenuItems())
             list.add(menuItem);
@@ -118,7 +118,7 @@ public class MainLayout extends AppLayout {
 
         public MenuItemInfo(String menuTitle, String iconClass, Class<? extends Component> view) {
             this.view = view;
-            RouterLink link = new RouterLink();
+            var link = new RouterLink();
             link.addClassNames(
                     Display.FLEX,
                     Gap.XSMALL,
@@ -129,7 +129,7 @@ public class MainLayout extends AppLayout {
             );
             link.setRoute(view);
 
-            Span text = new Span(menuTitle);
+            var text = new Span(menuTitle);
             text.addClassNames(FontWeight.MEDIUM, FontSize.MEDIUM, Whitespace.NOWRAP);
 
             link.add(new LineAwesomeIcon(iconClass), text);

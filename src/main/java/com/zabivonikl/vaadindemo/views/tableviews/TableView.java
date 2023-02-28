@@ -41,7 +41,7 @@ public abstract class TableView<T extends AbstractEntity> extends VerticalLayout
     }
 
     private boolean isUserAdmin() {
-        String role = securityService.getAuthenticatedUser()
+        var role = securityService.getAuthenticatedUser()
                 .getAuthorities()
                 .iterator().next()
                 .getAuthority();
@@ -50,7 +50,7 @@ public abstract class TableView<T extends AbstractEntity> extends VerticalLayout
     }
 
     private Component getContent() {
-        HorizontalLayout content = new HorizontalLayout(grid, form);
+        var content = new HorizontalLayout(grid, form);
         content.setFlexGrow(2, grid);
         content.setFlexGrow(1, form);
         content.addClassNames("content");
@@ -95,7 +95,7 @@ public abstract class TableView<T extends AbstractEntity> extends VerticalLayout
 
     private HorizontalLayout getToolbar() {
         initializeFilterText();
-        HorizontalLayout toolbar = isUserAdmin() ?
+        var toolbar = isUserAdmin() ?
                 new HorizontalLayout(filterText, getAddButton()) :
                 new HorizontalLayout(filterText);
 
@@ -113,7 +113,7 @@ public abstract class TableView<T extends AbstractEntity> extends VerticalLayout
     }
 
     private Component getAddButton() {
-        Button button = new Button("Добавить");
+        var button = new Button("Добавить");
         button.addClickListener(click -> addEntity());
 
         return button;

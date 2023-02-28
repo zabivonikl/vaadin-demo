@@ -5,7 +5,6 @@ import com.zabivonikl.vaadindemo.views.tableviews.EditForm;
 
 public class EditFormEvents {
     public abstract static class EditFormEvent extends ComponentEvent<EditForm<?>> {
-
         protected EditFormEvent(EditForm source) {
             super(source, false);
         }

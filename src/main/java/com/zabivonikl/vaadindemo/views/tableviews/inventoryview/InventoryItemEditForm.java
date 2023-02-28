@@ -39,7 +39,7 @@ public class InventoryItemEditForm extends EditForm<InventoryItem> {
     }
 
     private NumberField getPriceField() {
-        NumberField field = new NumberField("Цена");
+        var field = new NumberField("Цена");
         field.setValue(0d);
         field.setMin(0);
         field.setMax(Integer.MAX_VALUE);

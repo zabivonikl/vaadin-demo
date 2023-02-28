@@ -35,6 +35,6 @@ public class InventoryView extends TableView<InventoryItem> {
     }
 
     private String getFormattedPrice(InventoryItem item) {
-        return String.format("%.2f₽",item.getPrice());
+        return String.format("%.2f₽", item.getPrice());
     }
 }

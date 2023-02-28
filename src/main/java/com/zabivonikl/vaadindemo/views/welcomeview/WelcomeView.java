@@ -30,13 +30,13 @@ public class WelcomeView extends VerticalLayout implements HasStyle {
     }
 
     private Component getLogo() {
-        Icon icon = new Icon(VaadinIcon.ACADEMY_CAP);
+        var icon = new Icon(VaadinIcon.ACADEMY_CAP);
         icon.addClassNames(FontSize.XXXLARGE, TextColor.PRIMARY);
         return icon;
     }
 
     private Component getHeader() {
-        H1 header = new H1("Добро пожаловать!");
+        var header = new H1("Добро пожаловать!");
         header.addClassNames(
                 Margin.Vertical.NONE,
                 TextAlignment.CENTER
@@ -46,7 +46,7 @@ public class WelcomeView extends VerticalLayout implements HasStyle {
     }
 
     private Component getDescription() {
-        Paragraph description = new Paragraph("Тестовый проект на Vaadin. Github: ");
+        var description = new Paragraph("Тестовый проект на Vaadin. Github: ");
         description.add(new Anchor("https://github.com/zabivonikl/vaadin-demo", "https://github.com/zabivonikl/vaadin-demo"));
         description.add(".");
 
