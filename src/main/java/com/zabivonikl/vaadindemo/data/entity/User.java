@@ -1,8 +1,6 @@
 package com.zabivonikl.vaadindemo.data.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "users")
@@ -12,7 +10,8 @@ public class User extends AbstractEntity {
 
     private String password;
 
-    private String role;
+    @Enumerated(EnumType.STRING)
+    private Role role = Role.User;
 
     public String getLogin() {
         return login;
@@ -31,18 +30,10 @@ public class User extends AbstractEntity {
     }
 
     public Role getRole() {
-        return Role.valueOf(role);
-    }
-
-    public void setRole(Role role) {
-        this.role = role.name();
-    }
-
-    public String getRoleString() {
         return role;
     }
 
-    public void setRoleString(String role) {
-        this.role = Role.valueOf(role).name();
+    public void setRole(Role role) {
+        this.role = role;
     }
 }

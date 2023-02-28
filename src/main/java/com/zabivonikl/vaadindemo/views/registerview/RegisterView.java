@@ -35,7 +35,7 @@ public class RegisterView extends VerticalLayout {
 
     private final PasswordField passwordConfirmation = getPasswordConfirmationField();
 
-    private final Select<String> role = getRoleSelector();
+    private final Select<Role> role = getRoleSelector();
 
     private final Button register = getRegisterButton();
 
@@ -75,10 +75,10 @@ public class RegisterView extends VerticalLayout {
         return button;
     }
 
-    private Select<String> getRoleSelector() {
-        var select = new Select<String>();
+    private Select<Role> getRoleSelector() {
+        var select = new Select<Role>();
         select.setLabel("Роль");
-        select.setItems(Role.getNames());
+        select.setItems(Role.values());
         select.setPlaceholder("Роль...");
         return select;
     }
@@ -94,7 +94,7 @@ public class RegisterView extends VerticalLayout {
                 .bind(User::getPassword, User::setPassword);
         binder.forField(role)
                 .asRequired("Поле должно быть заполнено")
-                .bind(User::getRoleString, User::setRoleString);
+                .bind(User::getRole, User::setRole);
         binder.addStatusChangeListener(e -> register.setEnabled(binder.isValid()));
     }
 
