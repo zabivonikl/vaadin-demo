@@ -20,13 +20,17 @@ import com.zabivonikl.vaadindemo.security.SecurityService;
 public abstract class TableView<T extends AbstractEntity> extends VerticalLayout {
     protected final AbstractService<T> entityService;
     private final SecurityService securityService;
-    private final TextField filterText = createFilterText();
-    protected Grid<T> grid = createGrid();
-    private final EditForm<T> form = createForm();
+    private final TextField filterText;
+    protected final Grid<T> grid;
+    private final EditForm<T> form;
 
     public TableView(AbstractService<T> entityService, SecurityService securityService) {
         this.entityService = entityService;
         this.securityService = securityService;
+
+        this.filterText = createFilterText();
+        this.grid = createGrid();
+        this.form = createForm();
 
         setPadding(true);
         addClassName("list-view");
