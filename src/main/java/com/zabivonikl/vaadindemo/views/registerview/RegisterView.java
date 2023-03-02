@@ -25,19 +25,19 @@ import com.zabivonikl.vaadindemo.views.loginview.LoginView;
 public class RegisterView extends VerticalLayout {
     private final UserService userService;
 
-    private final Binder<User> binder = new BeanValidationBinder<>(User.class);
+    private final Binder<User> binder = createBinder();
 
-    private final H1 header = new H1("Регистрация");
+    private final H1 header = createHeader();
 
-    private final TextField login = new TextField("Логин");
+    private final TextField login = createLoginField();
 
-    private final PasswordField password = getPasswordField();
+    private final PasswordField password = createPasswordField();
 
-    private final PasswordField passwordConfirmation = getPasswordConfirmationField();
+    private final PasswordField passwordConfirmation = createPasswordConfirmationField();
 
-    private final Select<Role> role = getRoleSelector();
+    private final Select<Role> role = createRoleSelector();
 
-    private final Button register = getRegisterButton();
+    private final Button register = createRegisterButton();
 
     public RegisterView(UserService userService) {
         this.userService = userService;
@@ -58,30 +58,46 @@ public class RegisterView extends VerticalLayout {
         configureBinder();
     }
 
-    private PasswordField getPasswordField() {
+    //region Field-component initialization
+
+    private Binder<User> createBinder() {
+        return new BeanValidationBinder<>(User.class);
+    }
+
+    private H1 createHeader() {
+        return new H1("Регистрация");
+    }
+
+    private TextField createLoginField() {
+        return new TextField("Логин");
+    }
+
+    private PasswordField createPasswordField() {
         return new PasswordField("Пароль");
     }
 
-    private PasswordField getPasswordConfirmationField() {
+    private PasswordField createPasswordConfirmationField() {
         var passwordField = new PasswordField("Пароль ещё раз");
         passwordField.addValueChangeListener(e -> binder.validate());
         passwordField.setRequired(true);
         return passwordField;
     }
 
-    private Button getRegisterButton() {
+    private Button createRegisterButton() {
         var button = new Button("Зарегистрироваться");
         button.addClickListener(e -> onCreateUser());
         return button;
     }
 
-    private Select<Role> getRoleSelector() {
+    private Select<Role> createRoleSelector() {
         var select = new Select<Role>();
         select.setLabel("Роль");
         select.setItems(Role.values());
         select.setPlaceholder("Роль...");
         return select;
     }
+
+    //endregion
 
     private void configureBinder() {
         binder.forField(login)
@@ -90,7 +106,7 @@ public class RegisterView extends VerticalLayout {
                 .bind(User::getLogin, User::setLogin);
         binder.forField(password)
                 .asRequired("Поле должно быть заполнено")
-                .withValidator(new PasswordFieldController(password, passwordConfirmation))
+                .withValidator(new PasswordFieldsController(password, passwordConfirmation))
                 .bind(User::getPassword, User::setPassword);
         binder.forField(role)
                 .asRequired("Поле должно быть заполнено")

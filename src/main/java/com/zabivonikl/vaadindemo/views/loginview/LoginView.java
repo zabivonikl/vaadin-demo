@@ -13,7 +13,8 @@ import com.vaadin.flow.server.auth.AnonymousAllowed;
 @PageTitle("Вход | Vaadin Demo")
 @AnonymousAllowed
 public class LoginView extends VerticalLayout implements BeforeEnterObserver {
-    private final LoginForm login = new LoginForm();
+    private final H1 header = createHeader();
+    private final LoginForm login = createLoginForm();
 
     public LoginView() {
         addClassName("login-view");
@@ -21,11 +22,24 @@ public class LoginView extends VerticalLayout implements BeforeEnterObserver {
         setAlignItems(Alignment.CENTER);
         setJustifyContentMode(JustifyContentMode.CENTER);
 
-        login.setAction("login");
-        login.setForgotPasswordButtonVisible(false);
-
-        add(new H1("Vaadin Demo"), login);
+        add(header, login);
     }
+
+    //region Field-component initialization
+
+    private LoginForm createLoginForm() {
+        var loginForm = new LoginForm();
+        loginForm.setAction("login");
+        loginForm.setForgotPasswordButtonVisible(false);
+
+        return loginForm;
+    }
+
+    private H1 createHeader() {
+        return new H1("Vaadin Demo");
+    }
+
+    //endregion
 
     @Override
     public void beforeEnter(BeforeEnterEvent beforeEnterEvent) {

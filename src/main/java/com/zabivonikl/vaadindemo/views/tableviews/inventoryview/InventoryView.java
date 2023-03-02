@@ -1,5 +1,6 @@
 package com.zabivonikl.vaadindemo.views.tableviews.inventoryview;
 
+import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.zabivonikl.vaadindemo.data.entity.InventoryItem;
@@ -14,24 +15,27 @@ import javax.annotation.security.PermitAll;
 @Route(value = "inventory", layout = MainLayout.class)
 @PermitAll
 public class InventoryView extends TableView<InventoryItem> {
-
     public InventoryView(InventoryService inventoryService, SecurityService securityService) {
         super(inventoryService, securityService);
     }
 
     @Override
-    protected InventoryItemEditForm createForm() {
+    protected InventoryItemEditForm createFormPrototype() {
         return new InventoryItemEditForm();
     }
 
     @Override
-    protected void addGridColumns() {
+    protected Grid<InventoryItem> createGrid() {
+        var grid = super.createGrid();
+
         grid.addColumn(InventoryItem::getVendor).setHeader("Производитель");
         grid.addColumn(InventoryItem::getTitle).setHeader("Название");
         grid.addColumn(InventoryItem::getCategory).setHeader("Категория");
         grid.addColumn(this::getFormattedPrice).setHeader("Цена");
         grid.addColumn(InventoryItem::getPiecesLeft).setHeader("Количество");
         grid.getColumns().forEach(column -> column.setAutoWidth(true));
+
+        return grid;
     }
 
     private String getFormattedPrice(InventoryItem item) {

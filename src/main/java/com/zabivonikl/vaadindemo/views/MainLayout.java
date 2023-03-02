@@ -32,11 +32,12 @@ public class MainLayout extends AppLayout {
         var header = new HorizontalLayout();
         header.addClassNames("text-l", "m-m");
 
-        var navbar = getNavbar();
+        var navbar = createNavbar();
 
-        header.add(getLayout(), navbar, isUserLoggedIn() ? getLogoutButton() : getLoginButton());
+        header.add(createLayout(), navbar, isUserLoggedIn() ? createLogoutButton() : createLoginButton());
         if (!isUserLoggedIn())
-            header.add(getRegisterButton());
+            header.add(createRegisterButton());
+
         header.setDefaultVerticalComponentAlignment(FlexComponent.Alignment.CENTER);
         header.expand(navbar);
         header.setWidth("100%");
@@ -49,33 +50,33 @@ public class MainLayout extends AppLayout {
         return securityService.getAuthenticatedUser() != null;
     }
 
-    private Button getLogoutButton() {
+    private Button createLogoutButton() {
         var button = new Button(new Icon(VaadinIcon.EXIT_O), e -> securityService.logout());
         button.addThemeVariants(ButtonVariant.LUMO_ERROR);
         return button;
     }
 
-    private Button getLoginButton() {
+    private Button createLoginButton() {
         var button = new Button("Вход", e -> UI.getCurrent().navigate(LoginView.class));
         button.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         return button;
     }
 
-    private Button getRegisterButton() {
+    private Button createRegisterButton() {
         var button = new Button("Регистрация", e -> UI.getCurrent().navigate(RegisterView.class));
         button.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
         return button;
     }
 
-    private Component getLayout() {
+    private Component createLayout() {
         var layout = new Div();
         layout.addClassNames(Display.FLEX, AlignItems.CENTER, Padding.Horizontal.LARGE);
-        layout.add(getAppName());
+        layout.add(createAppName());
 
         return layout;
     }
 
-    private Component getAppName() {
+    private Component createAppName() {
         var icon = new Icon(VaadinIcon.VAADIN_H);
         var title = new H1("Vaadin Demo");
         title.addClassNames(FontSize.XLARGE, Margin.Vertical.MEDIUM);
@@ -88,15 +89,15 @@ public class MainLayout extends AppLayout {
         return logo;
     }
 
-    private Component getNavbar() {
+    private Component createNavbar() {
         var nav = new Nav();
         nav.addClassNames(Display.FLEX, Overflow.AUTO, Padding.Horizontal.MEDIUM, Padding.Vertical.XSMALL);
-        nav.add(getMenuItems());
+        nav.add(createMenuItemsWrapper());
 
         return nav;
     }
 
-    private UnorderedList getMenuItems() {
+    private UnorderedList createMenuItemsWrapper() {
         var list = new UnorderedList();
         list.addClassNames(Display.FLEX, Gap.SMALL, ListStyleType.NONE, Margin.NONE, Padding.NONE);
         for (MenuItemInfo menuItem : createMenuItems())
@@ -155,5 +156,4 @@ public class MainLayout extends AppLayout {
         }
 
     }
-
 }

@@ -10,17 +10,17 @@ import com.zabivonikl.vaadindemo.data.entity.Person;
 import com.zabivonikl.vaadindemo.views.tableviews.EditForm;
 
 public class PersonEditForm extends EditForm<Person> {
-    private final TextField firstName = new TextField("Имя");
+    private final TextField firstName = createFirstName();
 
-    private final TextField lastName = new TextField("Фамилия");
+    private final TextField lastName = createLastName() ;
 
-    private final EmailField email = new EmailField("Email");
+    private final EmailField email = createEmail() ;
 
-    private final TextField phone = new TextField("Телефон");
+    private final TextField phone = createPhone() ;
 
-    private final DatePicker dateOfBirth = new DatePicker("Дата рождения");
+    private final DatePicker dateOfBirth = createDateOfBirth();
 
-    private final TextField role = new TextField("Должность");
+    private final TextField role = createRole() ;
 
     public PersonEditForm() {
         add(
@@ -34,6 +34,34 @@ public class PersonEditForm extends EditForm<Person> {
         );
         configureBinder();
     }
+
+    //region Field-components initialization
+
+    private TextField createFirstName() {
+        return new TextField("Имя");
+    }
+
+    private TextField createLastName() {
+        return new TextField("Фамилия");
+    }
+
+    private EmailField createEmail() {
+        return new EmailField("Email");
+    }
+
+    private TextField createPhone() {
+        return new TextField("Телефон");
+    }
+
+    private DatePicker createDateOfBirth() {
+        return new DatePicker("Дата рождения");
+    }
+
+    private TextField createRole() {
+        return new TextField("Должность");
+    }
+
+    //endregion
 
     @Override
     protected Person createEntity() {
@@ -53,7 +81,7 @@ public class PersonEditForm extends EditForm<Person> {
                 .withValidator(new EmailValidator("Неверный формат почты"))
                 .bind(Person::getEmail, Person::setEmail);
         binder.forField(phone)
-                .withValidator(getPhoneValidator())
+                .withValidator(createPhoneValidator())
                 .bind(Person::getPhone, Person::setPhone);
         binder.forField(dateOfBirth)
                 .bind(Person::getDateOfBirth, Person::setDateOfBirth);
@@ -62,7 +90,7 @@ public class PersonEditForm extends EditForm<Person> {
                 .bind(Person::getRole, Person::setRole);
     }
 
-    private Validator<String> getPhoneValidator() {
+    private Validator<String> createPhoneValidator() {
         var regex = "^((8|\\+7)[\\- ]?)?(\\(?\\d{3}\\)?[\\- ]?)?[\\d\\- ]{7,10}$";
         return new RegexpValidator("Неверный формат номера", regex);
     }

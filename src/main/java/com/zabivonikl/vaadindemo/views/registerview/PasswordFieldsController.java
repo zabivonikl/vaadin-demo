@@ -5,11 +5,11 @@ import com.vaadin.flow.data.binder.ValidationResult;
 import com.vaadin.flow.data.binder.Validator;
 import com.vaadin.flow.data.binder.ValueContext;
 
-public class PasswordFieldController implements Validator<String> {
+public class PasswordFieldsController implements Validator<String> {
     private final PasswordField password;
     private final PasswordField passwordConfirmation;
 
-    public PasswordFieldController(PasswordField password, PasswordField passwordConfirmation) {
+    public PasswordFieldsController(PasswordField password, PasswordField passwordConfirmation) {
         this.password = password;
         this.passwordConfirmation = passwordConfirmation;
     }

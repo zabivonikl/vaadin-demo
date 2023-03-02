@@ -15,9 +15,9 @@ import com.zabivonikl.vaadindemo.data.EditFormEvents;
 import com.zabivonikl.vaadindemo.data.entity.AbstractEntity;
 
 public abstract class EditForm<T extends AbstractEntity> extends FormLayout {
-    private final Button save = new Button("Сохранить");
-    private final Button delete = new Button("Удалить");
-    private final Button close = new Button("Отмена");
+    private final Button save = createSaveButton();
+    private final Button delete = createDeleteButton();
+    private final Button close = craeteCloseButton();
     @SuppressWarnings("unchecked")
     protected Binder<T> binder = new BeanValidationBinder<>((Class<T>) createEntity().getClass());
     private T entity;
@@ -26,22 +26,35 @@ public abstract class EditForm<T extends AbstractEntity> extends FormLayout {
 
     protected abstract void configureBinder();
 
-    protected HorizontalLayout createButtonsLayout() {
+    //region Field-components initialization
+
+    private Button createSaveButton() {
+        var save = new Button("Сохранить");
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        delete.addThemeVariants(ButtonVariant.LUMO_ERROR);
-        close.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
-
         save.addClickShortcut(Key.ENTER);
-        close.addClickShortcut(Key.ESCAPE);
-
         save.addClickListener(event -> validateAndSave());
+
+        return save;
+    }
+
+    private Button createDeleteButton() {
+        var delete = new Button("Удалить");
+        delete.addThemeVariants(ButtonVariant.LUMO_ERROR);
         delete.addClickListener(event -> fireEvent(new EditFormEvents.DeleteEvent(this)));
+
+        return delete;
+    }
+
+    private Button craeteCloseButton() {
+        var close = new Button("Отмена");
+        close.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
+        close.addClickShortcut(Key.ESCAPE);
         close.addClickListener(event -> fireEvent(new EditFormEvents.CloseEvent(this)));
 
-        binder.addStatusChangeListener(e -> save.setEnabled(binder.isValid()));
-
-        return new HorizontalLayout(save, delete, close);
+        return close;
     }
+
+    //endregion
 
     private void validateAndSave() {
         try {
@@ -50,6 +63,11 @@ public abstract class EditForm<T extends AbstractEntity> extends FormLayout {
         } catch (ValidationException e) {
             e.printStackTrace();
         }
+    }
+
+    protected HorizontalLayout createButtonsLayout() {
+        binder.addStatusChangeListener(e -> save.setEnabled(binder.isValid()));
+        return new HorizontalLayout(save, delete, close);
     }
 
     public T getEntity() {

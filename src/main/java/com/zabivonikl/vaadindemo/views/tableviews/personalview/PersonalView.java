@@ -1,5 +1,6 @@
 package com.zabivonikl.vaadindemo.views.tableviews.personalview;
 
+import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.zabivonikl.vaadindemo.data.entity.Person;
@@ -19,12 +20,14 @@ public class PersonalView extends TableView<Person> {
     }
 
     @Override
-    protected PersonEditForm createForm() {
+    protected PersonEditForm createFormPrototype() {
         return new PersonEditForm();
     }
 
     @Override
-    protected void addGridColumns() {
+    protected Grid<Person> createGrid() {
+        var grid = super.createGrid();
+
         grid.addColumn(Person::getFirstName).setHeader("Имя");
         grid.addColumn(Person::getLastName).setHeader("Фамилия");
         grid.addColumn(Person::getEmail).setHeader("Email");
@@ -32,5 +35,7 @@ public class PersonalView extends TableView<Person> {
         grid.addColumn(Person::getDateOfBirth).setHeader("Дата рождения");
         grid.addColumn(Person::getRole).setHeader("Должность");
         grid.getColumns().forEach(column -> column.setAutoWidth(true));
+
+        return grid;
     }
 }

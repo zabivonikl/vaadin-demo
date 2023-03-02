@@ -7,15 +7,15 @@ import com.zabivonikl.vaadindemo.data.entity.InventoryItem;
 import com.zabivonikl.vaadindemo.views.tableviews.EditForm;
 
 public class InventoryItemEditForm extends EditForm<InventoryItem> {
-    public final TextField title = new TextField("Название");
+    public final TextField title = createTitleField();
 
-    public final TextField vendor = new TextField("Производитель");
+    public final TextField vendor = createVendorField();
 
-    public final TextField category = new TextField("Категория");
+    public final TextField category = createCategoryField();
 
-    public final IntegerField piecesLeft = getPiecesLeftField();
+    public final IntegerField piecesLeft = createPiecesLeftField();
 
-    public final NumberField price = getPriceField();
+    public final NumberField price = createPriceField();
 
     public InventoryItemEditForm() {
         add(
@@ -29,7 +29,21 @@ public class InventoryItemEditForm extends EditForm<InventoryItem> {
         configureBinder();
     }
 
-    private IntegerField getPiecesLeftField() {
+    //region Field-components initialization
+
+    private TextField createTitleField() {
+        return new TextField("Название");
+    }
+
+    private TextField createVendorField() {
+        return new TextField("Производитель");
+    }
+
+    private TextField createCategoryField() {
+        return new TextField("Категория");
+    }
+
+    private IntegerField createPiecesLeftField() {
         IntegerField field = new IntegerField("Осталось шт.");
         field.setValue(0);
         field.setMin(0);
@@ -38,7 +52,7 @@ public class InventoryItemEditForm extends EditForm<InventoryItem> {
         return field;
     }
 
-    private NumberField getPriceField() {
+    private NumberField createPriceField() {
         var field = new NumberField("Цена");
         field.setValue(0d);
         field.setMin(0);
@@ -47,6 +61,8 @@ public class InventoryItemEditForm extends EditForm<InventoryItem> {
         field.setErrorMessage("Цена должна быть больше 0,00₽");
         return field;
     }
+
+    //endregion
 
     @Override
     protected InventoryItem createEntity() {
