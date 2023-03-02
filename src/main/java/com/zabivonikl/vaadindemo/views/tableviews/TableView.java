@@ -21,7 +21,7 @@ public abstract class TableView<T extends AbstractEntity> extends VerticalLayout
     protected final AbstractService<T> entityService;
     private final SecurityService securityService;
     private final TextField filterText;
-    protected final Grid<T> grid;
+    private final Grid<T> grid;
     private final EditForm<T> form;
 
     public TableView(AbstractService<T> entityService, SecurityService securityService) {
