@@ -15,7 +15,7 @@ import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.theme.lumo.LumoUtility.*;
 import com.zabivonikl.vaadindemo.security.SecurityService;
 import com.zabivonikl.vaadindemo.views.loginview.LoginView;
-import com.zabivonikl.vaadindemo.views.registerview.RegisterView;
+import com.zabivonikl.vaadindemo.views.registerview.RegistrationView;
 import com.zabivonikl.vaadindemo.views.tableviews.inventoryview.InventoryView;
 import com.zabivonikl.vaadindemo.views.tableviews.personalview.PersonalView;
 import com.zabivonikl.vaadindemo.views.welcomeview.WelcomeView;
@@ -63,9 +63,7 @@ public class MainLayout extends AppLayout {
     }
 
     private Button createRegisterButton() {
-        var button = new Button("Регистрация", e -> UI.getCurrent().navigate(RegisterView.class));
-        button.addThemeVariants(ButtonVariant.LUMO_TERTIARY);
-        return button;
+        return new Button("Регистрация", e -> UI.getCurrent().navigate(RegistrationView.class));
     }
 
     private Component createLayout() {

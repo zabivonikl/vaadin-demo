@@ -22,7 +22,7 @@ import com.zabivonikl.vaadindemo.views.loginview.LoginView;
 @Route("register")
 @PageTitle("Регистрация | Vaadin Demo")
 @AnonymousAllowed
-public class RegisterView extends VerticalLayout {
+public class RegistrationView extends VerticalLayout {
     private final UserService userService;
 
     private final Binder<User> binder = createBinder();
@@ -39,7 +39,7 @@ public class RegisterView extends VerticalLayout {
 
     private final Button register = createRegisterButton();
 
-    public RegisterView(UserService userService) {
+    public RegistrationView(UserService userService) {
         this.userService = userService;
 
         setSizeFull();
