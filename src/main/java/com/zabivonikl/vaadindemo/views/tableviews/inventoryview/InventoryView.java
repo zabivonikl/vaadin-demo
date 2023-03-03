@@ -1,10 +1,12 @@
 package com.zabivonikl.vaadindemo.views.tableviews.inventoryview;
 
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.data.provider.ConfigurableFilterDataProvider;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.zabivonikl.vaadindemo.data.entity.InventoryItem;
 import com.zabivonikl.vaadindemo.data.service.InventoryService;
+import com.zabivonikl.vaadindemo.data.service.dataproviders.InventoryItemsProvider;
 import com.zabivonikl.vaadindemo.security.SecurityService;
 import com.zabivonikl.vaadindemo.views.MainLayout;
 import com.zabivonikl.vaadindemo.views.tableviews.TableView;
@@ -22,6 +24,11 @@ public class InventoryView extends TableView<InventoryItem> {
     @Override
     protected InventoryItemEditForm createFormPrototype() {
         return new InventoryItemEditForm();
+    }
+
+    @Override
+    protected ConfigurableFilterDataProvider<InventoryItem, Void, String> getDataProvider() {
+        return new InventoryItemsProvider(entityService).withConfigurableFilter();
     }
 
     @Override

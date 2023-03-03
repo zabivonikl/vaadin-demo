@@ -15,12 +15,12 @@ import com.zabivonikl.vaadindemo.data.EditFormEvents;
 import com.zabivonikl.vaadindemo.data.entity.AbstractEntity;
 
 public abstract class EditForm<T extends AbstractEntity> extends FormLayout {
-    private final Button save = createSaveButton();
     private final Button delete = createDeleteButton();
     private final Button close = craeteCloseButton();
     @SuppressWarnings("unchecked")
     protected Binder<T> binder = new BeanValidationBinder<>((Class<T>) createEntity().getClass());
     private T entity;
+    private final Button save = createSaveButton();
 
     protected abstract T createEntity();
 

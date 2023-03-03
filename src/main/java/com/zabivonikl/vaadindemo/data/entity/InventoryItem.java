@@ -53,4 +53,10 @@ public class InventoryItem extends AbstractEntity {
     public void setPiecesLeft(int piecesLeft) {
         this.piecesLeft = piecesLeft;
     }
+
+    @Override
+    public boolean matches(String filter) {
+        return title.toLowerCase().contains(filter.toLowerCase()) ||
+                vendor.toLowerCase().contains(filter.toLowerCase());
+    }
 }

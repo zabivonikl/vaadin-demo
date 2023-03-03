@@ -2,6 +2,7 @@ package com.zabivonikl.vaadindemo.views.registerview;
 
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.select.Select;
@@ -85,6 +86,7 @@ public class RegistrationView extends VerticalLayout {
 
     private Button createRegisterButton() {
         var button = new Button("Зарегистрироваться");
+        button.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         button.addClickListener(e -> onCreateUser());
         return button;
     }

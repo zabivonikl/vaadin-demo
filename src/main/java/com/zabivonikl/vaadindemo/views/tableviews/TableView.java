@@ -9,6 +9,7 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.provider.ConfigurableFilterDataProvider;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.zabivonikl.vaadindemo.data.EditFormEvents;
 import com.zabivonikl.vaadindemo.data.entity.AbstractEntity;
@@ -20,6 +21,7 @@ import com.zabivonikl.vaadindemo.security.SecurityService;
 public abstract class TableView<T extends AbstractEntity> extends VerticalLayout {
     protected final AbstractService<T> entityService;
     private final SecurityService securityService;
+    private final ConfigurableFilterDataProvider<T, Void, String> dataProvider;
     private final TextField filterText;
     private final Grid<T> grid;
     private final EditForm<T> form;
@@ -27,6 +29,7 @@ public abstract class TableView<T extends AbstractEntity> extends VerticalLayout
     public TableView(AbstractService<T> entityService, SecurityService securityService) {
         this.entityService = entityService;
         this.securityService = securityService;
+        this.dataProvider = getDataProvider();
 
         this.filterText = createFilterText();
         this.grid = createGrid();
@@ -38,9 +41,10 @@ public abstract class TableView<T extends AbstractEntity> extends VerticalLayout
         setSizeFull();
 
         add(createToolbar(), createContent());
-        updateList();
         closeEditor();
     }
+
+    protected abstract ConfigurableFilterDataProvider<T, Void, String> getDataProvider();
 
     //region Field-components initialization
 
@@ -50,7 +54,7 @@ public abstract class TableView<T extends AbstractEntity> extends VerticalLayout
         filterText.setPrefixComponent(new Icon(VaadinIcon.SEARCH));
         filterText.setClearButtonVisible(true);
         filterText.setValueChangeMode(ValueChangeMode.LAZY);
-        filterText.addValueChangeListener(e -> updateList());
+        filterText.addValueChangeListener(e -> dataProvider.setFilter(e.getValue()));
 
         return filterText;
     }
@@ -60,6 +64,7 @@ public abstract class TableView<T extends AbstractEntity> extends VerticalLayout
         grid.setSizeFull();
         if (isUserAdmin())
             grid.asSingleSelect().addValueChangeListener(event -> editEntity(event.getValue()));
+        grid.setItems(dataProvider);
 
         return grid;
     }
@@ -119,8 +124,7 @@ public abstract class TableView<T extends AbstractEntity> extends VerticalLayout
 
     protected void saveEntity(EditFormEvents.SaveEvent event) {
         if (!isUserAdmin()) return;
-        entityService.add(form.getEntity());
-        updateList();
+        dataProvider.refreshAll();
         closeEditor();
     }
 
@@ -137,7 +141,7 @@ public abstract class TableView<T extends AbstractEntity> extends VerticalLayout
     private void deleteEntity(EditFormEvents.DeleteEvent event) {
         if (!isUserAdmin()) return;
         entityService.delete(form.getEntity());
-        updateList();
+        dataProvider.refreshAll();
         closeEditor();
     }
 
@@ -156,9 +160,5 @@ public abstract class TableView<T extends AbstractEntity> extends VerticalLayout
                 .getAuthority();
 
         return Role.valueOf(role) == Role.Admin;
-    }
-
-    private void updateList() {
-        grid.setItems(entityService.findAll(filterText.getValue()));
     }
 }

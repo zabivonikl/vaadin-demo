@@ -12,15 +12,15 @@ import com.zabivonikl.vaadindemo.views.tableviews.EditForm;
 public class PersonEditForm extends EditForm<Person> {
     private final TextField firstName = createFirstName();
 
-    private final TextField lastName = createLastName() ;
+    private final TextField lastName = createLastName();
 
-    private final EmailField email = createEmail() ;
+    private final EmailField email = createEmail();
 
-    private final TextField phone = createPhone() ;
+    private final TextField phone = createPhone();
 
     private final DatePicker dateOfBirth = createDateOfBirth();
 
-    private final TextField role = createRole() ;
+    private final TextField role = createRole();
 
     public PersonEditForm() {
         add(

@@ -36,4 +36,9 @@ public class User extends AbstractEntity {
     public void setRole(Role role) {
         this.role = role;
     }
+
+    @Override
+    public boolean matches(String filter) {
+        return login.toLowerCase().contains(filter.toLowerCase());
+    }
 }

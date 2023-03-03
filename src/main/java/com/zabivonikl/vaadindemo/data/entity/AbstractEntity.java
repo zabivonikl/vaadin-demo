@@ -27,6 +27,8 @@ public abstract class AbstractEntity {
         return version;
     }
 
+    public abstract boolean matches(String filter);
+
     @Override
     public int hashCode() {
         if (getId() != null) {

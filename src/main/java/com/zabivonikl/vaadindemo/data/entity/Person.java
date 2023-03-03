@@ -63,4 +63,10 @@ public class Person extends AbstractEntity {
     public void setRole(String role) {
         this.role = role;
     }
+
+    @Override
+    public boolean matches(String filter) {
+        return firstName.toLowerCase().contains(filter.toLowerCase()) ||
+                lastName.toLowerCase().contains(filter.toLowerCase());
+    }
 }
