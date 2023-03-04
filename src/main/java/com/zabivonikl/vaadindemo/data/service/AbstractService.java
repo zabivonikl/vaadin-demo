@@ -5,7 +5,6 @@ import com.zabivonikl.vaadindemo.data.service.repositories.AbstractRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.util.List;
 import java.util.Optional;
 
 public abstract class AbstractService<T extends AbstractEntity> {
@@ -35,12 +34,11 @@ public abstract class AbstractService<T extends AbstractEntity> {
         return repository.findAll(pageable);
     }
 
-    public List<T> findAll(String stringFilter) {
-        if (stringFilter == null || stringFilter.isEmpty()) {
-            return repository.findAll();
-        } else {
-            return repository.search(stringFilter);
-        }
+    public Page<T> findAll(Pageable pageable) {
+        return repository.findAll(pageable);
     }
 
+    public Page<T> findAll(String filter, Pageable pageable) {
+        return repository.find(filter, pageable);
+    }
 }

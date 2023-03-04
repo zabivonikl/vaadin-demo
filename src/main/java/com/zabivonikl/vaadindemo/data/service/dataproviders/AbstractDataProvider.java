@@ -4,25 +4,24 @@ import com.vaadin.flow.data.provider.AbstractBackEndDataProvider;
 import com.vaadin.flow.data.provider.Query;
 import com.zabivonikl.vaadindemo.data.entity.AbstractEntity;
 import com.zabivonikl.vaadindemo.data.service.AbstractService;
+import org.springframework.data.domain.PageRequest;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.Stream;
 
 public abstract class AbstractDataProvider<T extends AbstractEntity> extends AbstractBackEndDataProvider<T, String> {
-    protected final List<T> database;
+    private final AbstractService<T> service;
 
     public AbstractDataProvider(AbstractService<T> service) {
-        this.database = new ArrayList<>(service.findAll(null));
+        this.service = service;
     }
 
     @Override
     protected Stream<T> fetchFromBackEnd(Query<T, String> query) {
-        var stream = database.stream();
+        var page = PageRequest.of(query.getPage(), query.getPageSize());
         if (query.getFilter().isPresent())
-            stream = stream.filter(e -> e.matches(query.getFilter().get()));
+            return service.findAll(query.getFilter().get(), page).stream();
 
-        return stream.skip(query.getOffset()).limit(query.getLimit());
+        return service.findAll(page).stream();
     }
 
     @Override
