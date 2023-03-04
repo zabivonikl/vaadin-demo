@@ -1,29 +1,29 @@
 package com.zabivonikl.vaadindemo.data;
 
 import com.vaadin.flow.component.ComponentEvent;
-import com.zabivonikl.vaadindemo.views.tableviews.EditForm;
+import com.zabivonikl.vaadindemo.views.tableviews.EditDialog;
 
 public class EditFormEvents {
-    public abstract static class EditFormEvent extends ComponentEvent<EditForm<?>> {
-        protected EditFormEvent(EditForm source) {
+    public abstract static class EditFormEvent extends ComponentEvent<EditDialog<?>> {
+        protected EditFormEvent(EditDialog source) {
             super(source, false);
         }
     }
 
     public static class SaveEvent extends EditFormEvent {
-        public SaveEvent(EditForm source) {
+        public SaveEvent(EditDialog source) {
             super(source);
         }
     }
 
     public static class DeleteEvent extends EditFormEvent {
-        public DeleteEvent(EditForm source) {
+        public DeleteEvent(EditDialog source) {
             super(source);
         }
     }
 
     public static class CloseEvent extends EditFormEvent {
-        public CloseEvent(EditForm source) {
+        public CloseEvent(EditDialog source) {
             super(source);
         }
     }

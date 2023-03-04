@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.Optional;
+import java.util.UUID;
 
 public abstract class AbstractService<T extends AbstractEntity> {
     private final AbstractRepository<T> repository;
@@ -18,7 +19,7 @@ public abstract class AbstractService<T extends AbstractEntity> {
         return repository.save(entity);
     }
 
-    public Optional<T> get(Long id) {
+    public Optional<T> get(UUID id) {
         return repository.findById(id);
     }
 

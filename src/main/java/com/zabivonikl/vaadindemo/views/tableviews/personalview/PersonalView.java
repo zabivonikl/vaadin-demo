@@ -22,8 +22,8 @@ public class PersonalView extends TableView<Person> {
     }
 
     @Override
-    protected PersonEditForm createFormPrototype() {
-        return new PersonEditForm();
+    protected PersonEditDialog createDialogProto() {
+        return new PersonEditDialog();
     }
 
     @Override

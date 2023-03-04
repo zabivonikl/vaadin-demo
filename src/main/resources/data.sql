@@ -1,7 +1,3 @@
-insert into users (id, version, login, password, role) values ('350d2e0c-b543-11ed-afa1-0242ac120002', 0, 'admin', 'admin', 'Admin');
-insert into users (id, version, login, password, role)
-    values ('b6b0d0c3-b0a5-402c-8374-2c04109bee74', 0, 'user', 'user', 'User');
-
 insert into persons values ('2b0ae168-78d7-41bf-baee-1a82a87c606a', 0, '1983-06-05T12:16:56.569Z', 'christopher.porter@example.com', 'Christopher', 'Porter', '051-548-3036', 'Ballinasloe');
 insert into persons values ('8d98d8ae-11a4-4471-9c2c-54f122718918', 0, '1963-01-03T21:38:02.177Z', 'alfredo.moya@example.com', 'Alfredo', 'Moya', '938-260-392', 'Gijón');
 insert into persons values ('65295d3a-14f3-45c3-b18f-5fd9f2186503', 0, '1961-04-30T19:31:11.923Z', 'seth.hamilton@example.com', 'Seth', 'Hamilton', '08-0467-9290', 'Busselton');

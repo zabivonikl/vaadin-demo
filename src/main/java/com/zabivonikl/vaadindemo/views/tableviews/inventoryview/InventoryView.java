@@ -22,8 +22,8 @@ public class InventoryView extends TableView<InventoryItem> {
     }
 
     @Override
-    protected InventoryItemEditForm createFormPrototype() {
-        return new InventoryItemEditForm();
+    protected InventoryItemEditDialog createDialogProto() {
+        return new InventoryItemEditDialog();
     }
 
     @Override

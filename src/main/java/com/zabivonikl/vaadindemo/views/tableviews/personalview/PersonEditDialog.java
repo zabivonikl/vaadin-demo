@@ -7,9 +7,9 @@ import com.vaadin.flow.data.binder.Validator;
 import com.vaadin.flow.data.validator.EmailValidator;
 import com.vaadin.flow.data.validator.RegexpValidator;
 import com.zabivonikl.vaadindemo.data.entity.Person;
-import com.zabivonikl.vaadindemo.views.tableviews.EditForm;
+import com.zabivonikl.vaadindemo.views.tableviews.EditDialog;
 
-public class PersonEditForm extends EditForm<Person> {
+public class PersonEditDialog extends EditDialog<Person> {
     private final TextField firstName = createFirstName();
 
     private final TextField lastName = createLastName();
@@ -22,15 +22,14 @@ public class PersonEditForm extends EditForm<Person> {
 
     private final TextField role = createRole();
 
-    public PersonEditForm() {
+    public PersonEditDialog() {
         add(
                 firstName,
                 lastName,
                 email,
                 phone,
                 dateOfBirth,
-                role,
-                createButtonsLayout()
+                role
         );
         configureBinder();
     }
@@ -38,27 +37,39 @@ public class PersonEditForm extends EditForm<Person> {
     //region Field-components initialization
 
     private TextField createFirstName() {
-        return new TextField("Имя");
+        var field = new TextField("Имя");
+        field.setSizeFull();
+        return field;
     }
 
     private TextField createLastName() {
-        return new TextField("Фамилия");
+        TextField field = new TextField("Фамилия");
+        field.setSizeFull();
+        return field;
     }
 
     private EmailField createEmail() {
-        return new EmailField("Email");
+        EmailField field = new EmailField("Email");
+        field.setSizeFull();
+        return field;
     }
 
     private TextField createPhone() {
-        return new TextField("Телефон");
+        TextField field = new TextField("Телефон");
+        field.setSizeFull();
+        return field;
     }
 
     private DatePicker createDateOfBirth() {
-        return new DatePicker("Дата рождения");
+        DatePicker picker = new DatePicker("Дата рождения");
+        picker.setSizeFull();
+        return picker;
     }
 
     private TextField createRole() {
-        return new TextField("Должность");
+        TextField field = new TextField("Должность");
+        field.setSizeFull();
+        return field;
     }
 
     //endregion

@@ -8,9 +8,11 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.data.repository.query.Param;
 
+import java.util.UUID;
+
 @NoRepositoryBean
 public interface AbstractRepository<T extends AbstractEntity> extends
-        JpaRepository<T, Long>,
+        JpaRepository<T, UUID>,
         JpaSpecificationExecutor<T> {
     Page<T> find(@Param("searchTerm") String filter, Pageable pageable);
 }

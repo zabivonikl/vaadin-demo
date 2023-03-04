@@ -24,7 +24,7 @@ public abstract class TableView<T extends AbstractEntity> extends VerticalLayout
     private final ConfigurableFilterDataProvider<T, Void, String> dataProvider;
     private final TextField filterText;
     private final Grid<T> grid;
-    private final EditForm<T> form;
+    private final EditDialog<T> dialog = createDialog();
 
     public TableView(AbstractService<T> entityService, SecurityService securityService) {
         this.entityService = entityService;
@@ -33,7 +33,6 @@ public abstract class TableView<T extends AbstractEntity> extends VerticalLayout
 
         this.filterText = createFilterText();
         this.grid = createGrid();
-        this.form = createForm();
 
         setPadding(true);
         addClassName("list-view");
@@ -41,7 +40,6 @@ public abstract class TableView<T extends AbstractEntity> extends VerticalLayout
         setSizeFull();
 
         add(createToolbar(), createContent());
-        closeEditor();
     }
 
     protected abstract ConfigurableFilterDataProvider<T, Void, String> getDataProvider();
@@ -69,18 +67,15 @@ public abstract class TableView<T extends AbstractEntity> extends VerticalLayout
         return grid;
     }
 
-    private EditForm<T> createForm() {
-        var form = createFormPrototype();
-        form.setWidth("25em");
+    private EditDialog<T> createDialog() {
+        var dialog = createDialogProto();
+        dialog.addListener(EditFormEvents.SaveEvent.class, this::saveEntity);
+        dialog.addListener(EditFormEvents.DeleteEvent.class, this::deleteEntity);
 
-        form.addListener(EditFormEvents.SaveEvent.class, this::saveEntity);
-        form.addListener(EditFormEvents.DeleteEvent.class, this::deleteEntity);
-        form.addListener(EditFormEvents.CloseEvent.class, e -> closeEditor());
-
-        return form;
+        return dialog;
     }
 
-    protected abstract EditForm<T> createFormPrototype();
+    protected abstract EditDialog<T> createDialogProto();
 
     //endregion
 
@@ -105,9 +100,7 @@ public abstract class TableView<T extends AbstractEntity> extends VerticalLayout
     }
 
     private Component createContent() {
-        var content = new HorizontalLayout(grid, form);
-        content.setFlexGrow(2, grid);
-        content.setFlexGrow(1, form);
+        var content = new HorizontalLayout(grid);
         content.addClassNames("content");
         content.setSizeFull();
         return content;
@@ -119,36 +112,38 @@ public abstract class TableView<T extends AbstractEntity> extends VerticalLayout
 
     private void addEntity() {
         grid.asSingleSelect().clear();
-        editEntity(form.createEntity());
+        editEntity(dialog.createEntity());
     }
 
     protected void saveEntity(EditFormEvents.SaveEvent event) {
         if (!isUserAdmin()) return;
-        dataProvider.refreshAll();
-        closeEditor();
+        var entityToSave = dialog.getEntity();
+        if (entityService.get(entityToSave.getId()).isPresent()) {
+            entityService.update(entityToSave);
+            dataProvider.refreshAll();
+        } else {
+            entityService.update(entityToSave);
+            dataProvider.refreshItem(entityToSave);
+        }
+
+        dialog.close();
     }
 
     public void editEntity(T entity) {
         if (!isUserAdmin() || entity == null) {
-            closeEditor();
+            dialog.close();
         } else {
-            form.setEntity(entity);
-            form.setVisible(true);
-            addClassName("editing");
+            dialog.open();
+            dialog.setEntity(entity);
         }
     }
 
     private void deleteEntity(EditFormEvents.DeleteEvent event) {
         if (!isUserAdmin()) return;
-        entityService.delete(form.getEntity());
-        dataProvider.refreshAll();
-        closeEditor();
-    }
-
-    private void closeEditor() {
-        form.setEntity(null);
-        form.setVisible(false);
-        removeClassName("editing");
+        var entityToDelete = dialog.getEntity();
+        entityService.delete(entityToDelete);
+        dataProvider.refreshItem(entityToDelete);
+        dialog.close();
     }
 
     //endregion

@@ -4,9 +4,9 @@ import com.vaadin.flow.component.textfield.IntegerField;
 import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.zabivonikl.vaadindemo.data.entity.InventoryItem;
-import com.zabivonikl.vaadindemo.views.tableviews.EditForm;
+import com.zabivonikl.vaadindemo.views.tableviews.EditDialog;
 
-public class InventoryItemEditForm extends EditForm<InventoryItem> {
+public class InventoryItemEditDialog extends EditDialog<InventoryItem> {
     public final TextField title = createTitleField();
 
     public final TextField vendor = createVendorField();
@@ -17,14 +17,13 @@ public class InventoryItemEditForm extends EditForm<InventoryItem> {
 
     public final NumberField price = createPriceField();
 
-    public InventoryItemEditForm() {
+    public InventoryItemEditDialog() {
         add(
                 title,
                 vendor,
                 category,
                 price,
-                piecesLeft,
-                createButtonsLayout()
+                piecesLeft
         );
         configureBinder();
     }
@@ -32,22 +31,29 @@ public class InventoryItemEditForm extends EditForm<InventoryItem> {
     //region Field-components initialization
 
     private TextField createTitleField() {
-        return new TextField("Название");
+        var field = new TextField("Название");
+        field.setSizeFull();
+        return field;
     }
 
     private TextField createVendorField() {
-        return new TextField("Производитель");
+        var field = new TextField("Производитель");
+        field.setSizeFull();
+        return field;
     }
 
     private TextField createCategoryField() {
-        return new TextField("Категория");
+        var field = new TextField("Категория");
+        field.setSizeFull();
+        return field;
     }
 
     private IntegerField createPiecesLeftField() {
-        IntegerField field = new IntegerField("Осталось шт.");
+        var field = new IntegerField("Осталось шт.");
         field.setValue(0);
         field.setMin(0);
         field.setMax(Integer.MAX_VALUE);
+        field.setSizeFull();
         field.setErrorMessage("Количество должно быть больше 0");
         return field;
     }
@@ -58,6 +64,7 @@ public class InventoryItemEditForm extends EditForm<InventoryItem> {
         field.setMin(0);
         field.setMax(Integer.MAX_VALUE);
         field.setStep(.01);
+        field.setSizeFull();
         field.setErrorMessage("Цена должна быть больше 0,00₽");
         return field;
     }
