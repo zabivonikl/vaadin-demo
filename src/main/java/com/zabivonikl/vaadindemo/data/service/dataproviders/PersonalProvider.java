@@ -2,9 +2,11 @@ package com.zabivonikl.vaadindemo.data.service.dataproviders;
 
 import com.zabivonikl.vaadindemo.data.entity.Person;
 import com.zabivonikl.vaadindemo.data.service.AbstractService;
+import org.springframework.stereotype.Service;
 
-public class PersonsProvider extends AbstractDataProvider<Person> {
-    public PersonsProvider(AbstractService<Person> service) {
+@Service
+public class PersonalProvider extends AbstractDataProvider<Person> {
+    public PersonalProvider(AbstractService<Person> service) {
         super(service);
     }
 }

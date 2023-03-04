@@ -2,7 +2,6 @@ package com.zabivonikl.vaadindemo.views.tableviews;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.dependency.Uses;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
@@ -21,14 +20,13 @@ import com.zabivonikl.vaadindemo.security.SecurityService;
 
 import java.util.UUID;
 
-@Uses(Icon.class)
 public abstract class TableView<T extends AbstractEntity> extends VerticalLayout implements BeforeEnterObserver {
     protected final AbstractService<T> entityService;
-    protected final Grid<T> grid;
+    private final Grid<T> grid;
     private final SecurityService securityService;
     private final ConfigurableFilterDataProvider<T, Void, String> dataProvider;
     private final TextField filterText;
-    private final EditDialog<T> dialog;
+    private EditDialog<T> dialog;
 
     public TableView(AbstractService<T> entityService, SecurityService securityService) {
         this.entityService = entityService;
@@ -40,7 +38,6 @@ public abstract class TableView<T extends AbstractEntity> extends VerticalLayout
         this.dialog = createDialog();
 
         setPadding(true);
-        addClassName("list-view");
 
         setSizeFull();
 
@@ -84,6 +81,10 @@ public abstract class TableView<T extends AbstractEntity> extends VerticalLayout
     }
 
     protected abstract EditDialog<T> createDialogProto();
+
+    protected void resetDialog() {
+        this.dialog = createDialog();
+    }
 
     //endregion
 

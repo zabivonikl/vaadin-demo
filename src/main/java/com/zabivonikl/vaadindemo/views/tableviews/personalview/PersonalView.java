@@ -5,8 +5,8 @@ import com.vaadin.flow.data.provider.ConfigurableFilterDataProvider;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.zabivonikl.vaadindemo.data.entity.Person;
-import com.zabivonikl.vaadindemo.data.service.PersonService;
-import com.zabivonikl.vaadindemo.data.service.dataproviders.PersonsProvider;
+import com.zabivonikl.vaadindemo.data.service.PersonalService;
+import com.zabivonikl.vaadindemo.data.service.dataproviders.PersonalProvider;
 import com.zabivonikl.vaadindemo.security.SecurityService;
 import com.zabivonikl.vaadindemo.views.MainLayout;
 import com.zabivonikl.vaadindemo.views.tableviews.TableView;
@@ -17,8 +17,8 @@ import javax.annotation.security.PermitAll;
 @Route(value = "personal/:personId?", layout = MainLayout.class)
 @PermitAll
 public class PersonalView extends TableView<Person> {
-    public PersonalView(PersonService personService, SecurityService securityService) {
-        super(personService, securityService);
+    public PersonalView(PersonalService personalService, SecurityService securityService) {
+        super(personalService, securityService);
     }
 
     @Override
@@ -28,7 +28,7 @@ public class PersonalView extends TableView<Person> {
 
     @Override
     protected ConfigurableFilterDataProvider<Person, Void, String> getDataProvider() {
-        return new PersonsProvider(entityService).withConfigurableFilter();
+        return new PersonalProvider(entityService).withConfigurableFilter();
     }
 
     @Override

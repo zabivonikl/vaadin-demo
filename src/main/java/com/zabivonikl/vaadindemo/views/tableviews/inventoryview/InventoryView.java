@@ -11,7 +11,8 @@ import com.vaadin.flow.router.RouteParameters;
 import com.vaadin.flow.router.RouterLink;
 import com.zabivonikl.vaadindemo.data.entity.InventoryItem;
 import com.zabivonikl.vaadindemo.data.service.InventoryService;
-import com.zabivonikl.vaadindemo.data.service.dataproviders.InventoryItemsProvider;
+import com.zabivonikl.vaadindemo.data.service.PersonalService;
+import com.zabivonikl.vaadindemo.data.service.dataproviders.InventoryProvider;
 import com.zabivonikl.vaadindemo.security.SecurityService;
 import com.zabivonikl.vaadindemo.views.MainLayout;
 import com.zabivonikl.vaadindemo.views.tableviews.TableView;
@@ -23,18 +24,23 @@ import javax.annotation.security.PermitAll;
 @Route(value = "inventory", layout = MainLayout.class)
 @PermitAll
 public class InventoryView extends TableView<InventoryItem> {
-    public InventoryView(InventoryService inventoryService, SecurityService securityService) {
+    private final PersonalService personalService;
+
+    public InventoryView(PersonalService personalService, InventoryService inventoryService, SecurityService securityService) {
         super(inventoryService, securityService);
+
+        this.personalService = personalService;
+        resetDialog();
     }
 
     @Override
     protected InventoryItemEditDialog createDialogProto() {
-        return new InventoryItemEditDialog();
+        return new InventoryItemEditDialog(personalService);
     }
 
     @Override
     protected ConfigurableFilterDataProvider<InventoryItem, Void, String> getDataProvider() {
-        return new InventoryItemsProvider(entityService).withConfigurableFilter();
+        return new InventoryProvider(entityService).withConfigurableFilter();
     }
 
     @Override

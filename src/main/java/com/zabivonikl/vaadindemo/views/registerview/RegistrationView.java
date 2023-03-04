@@ -16,7 +16,7 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.server.auth.AnonymousAllowed;
 import com.zabivonikl.vaadindemo.data.entity.Role;
 import com.zabivonikl.vaadindemo.data.entity.User;
-import com.zabivonikl.vaadindemo.data.service.UserService;
+import com.zabivonikl.vaadindemo.data.service.UsersService;
 import com.zabivonikl.vaadindemo.views.loginview.LoginView;
 
 
@@ -24,7 +24,7 @@ import com.zabivonikl.vaadindemo.views.loginview.LoginView;
 @PageTitle("Регистрация | Vaadin Demo")
 @AnonymousAllowed
 public class RegistrationView extends VerticalLayout {
-    private final UserService userService;
+    private final UsersService usersService;
 
     private final Binder<User> binder = createBinder();
 
@@ -40,8 +40,8 @@ public class RegistrationView extends VerticalLayout {
 
     private final Button register = createRegisterButton();
 
-    public RegistrationView(UserService userService) {
-        this.userService = userService;
+    public RegistrationView(UsersService usersService) {
+        this.usersService = usersService;
 
         setSizeFull();
         setAlignItems(Alignment.CENTER);
@@ -104,7 +104,7 @@ public class RegistrationView extends VerticalLayout {
     private void configureBinder() {
         binder.forField(login)
                 .asRequired("Поле должно быть заполнено")
-                .withValidator(userService::isLoginAvailable, "Логин уже занят")
+                .withValidator(usersService::isLoginAvailable, "Логин уже занят")
                 .bind(User::getLogin, User::setLogin);
         binder.forField(password)
                 .asRequired("Поле должно быть заполнено")
@@ -120,7 +120,7 @@ public class RegistrationView extends VerticalLayout {
         try {
             var user = new User();
             binder.writeBean(user);
-            userService.add(user);
+            usersService.add(user);
             UI.getCurrent().navigate(LoginView.class);
         } catch (ValidationException e) {
             e.printStackTrace();

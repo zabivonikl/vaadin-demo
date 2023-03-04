@@ -6,7 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-public interface PersonRepository extends AbstractRepository<Person> {
+public interface PersonalRepository extends AbstractRepository<Person> {
     @Override
     @Query(
             "select p from Person p " +
