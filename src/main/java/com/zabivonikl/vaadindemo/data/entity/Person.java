@@ -2,6 +2,7 @@ package com.zabivonikl.vaadindemo.data.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.Email;
 import java.time.LocalDate;
 
@@ -30,6 +31,11 @@ public class Person extends AbstractEntity {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    @Transient
+    public String getFullName() {
+        return getFirstName() + " " + getLastName();
     }
 
     public String getEmail() {

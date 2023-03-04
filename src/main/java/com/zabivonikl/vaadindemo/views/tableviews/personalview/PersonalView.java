@@ -14,7 +14,7 @@ import com.zabivonikl.vaadindemo.views.tableviews.TableView;
 import javax.annotation.security.PermitAll;
 
 @PageTitle("Персонал | Vaadin Demo")
-@Route(value = "personal", layout = MainLayout.class)
+@Route(value = "personal/:personId?", layout = MainLayout.class)
 @PermitAll
 public class PersonalView extends TableView<Person> {
     public PersonalView(PersonService personService, SecurityService securityService) {

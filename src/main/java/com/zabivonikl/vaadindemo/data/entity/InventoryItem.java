@@ -1,6 +1,7 @@
 package com.zabivonikl.vaadindemo.data.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
@@ -13,6 +14,8 @@ public class InventoryItem extends AbstractEntity {
     private String category;
     private int piecesLeft;
     private double price;
+    @ManyToOne
+    private Person creator;
 
     public String getTitle() {
         return title;
@@ -52,6 +55,14 @@ public class InventoryItem extends AbstractEntity {
 
     public void setPiecesLeft(int piecesLeft) {
         this.piecesLeft = piecesLeft;
+    }
+
+    public Person getCreator() {
+        return creator;
+    }
+
+    public void setCreator(Person creator) {
+        this.creator = creator;
     }
 
     @Override

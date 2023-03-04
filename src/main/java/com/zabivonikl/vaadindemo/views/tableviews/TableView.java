@@ -11,18 +11,23 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.provider.ConfigurableFilterDataProvider;
 import com.vaadin.flow.data.value.ValueChangeMode;
+import com.vaadin.flow.router.BeforeEnterEvent;
+import com.vaadin.flow.router.BeforeEnterObserver;
+import com.vaadin.flow.router.RouteParameters;
 import com.zabivonikl.vaadindemo.data.entity.AbstractEntity;
 import com.zabivonikl.vaadindemo.data.entity.Role;
 import com.zabivonikl.vaadindemo.data.service.AbstractService;
 import com.zabivonikl.vaadindemo.security.SecurityService;
 
+import java.util.UUID;
+
 @Uses(Icon.class)
-public abstract class TableView<T extends AbstractEntity> extends VerticalLayout {
+public abstract class TableView<T extends AbstractEntity> extends VerticalLayout implements BeforeEnterObserver {
     protected final AbstractService<T> entityService;
+    protected final Grid<T> grid;
     private final SecurityService securityService;
     private final ConfigurableFilterDataProvider<T, Void, String> dataProvider;
     private final TextField filterText;
-    private final Grid<T> grid;
     private final EditDialog<T> dialog;
 
     public TableView(AbstractService<T> entityService, SecurityService securityService) {
@@ -115,7 +120,7 @@ public abstract class TableView<T extends AbstractEntity> extends VerticalLayout
             return;
 
         var entityToSave = dialog.getEntity();
-        if (entityService.contains(entityToSave)) {
+        if (!entityService.contains(entityToSave)) {
             entityService.update(entityToSave);
             dataProvider.refreshAll();
         } else {
@@ -153,4 +158,41 @@ public abstract class TableView<T extends AbstractEntity> extends VerticalLayout
 
         return Role.valueOf(role) == Role.Admin;
     }
+
+    //region Row selection
+
+    @Override
+    public void beforeEnter(BeforeEnterEvent beforeEnterEvent) {
+        try {
+            var parameterName = checkEventAndGetIdParam(beforeEnterEvent);
+            var uuid = getIdParamValue(beforeEnterEvent.getRouteParameters(), parameterName);
+            grid.select(entityService.findById(uuid));
+        } catch (Exception ignored) {
+        }
+    }
+
+    private String checkEventAndGetIdParam(BeforeEnterEvent beforeEnterEvent) {
+        if (beforeEnterEvent.isRefreshEvent())
+            return null;
+
+        return beforeEnterEvent
+                .getRouteParameters()
+                .getParameterNames()
+                .stream()
+                .filter(param -> param.contains("Id"))
+                .findFirst()
+                .orElse(null);
+    }
+
+    private UUID getIdParamValue(RouteParameters params, String parameterName) {
+        if (parameterName == null)
+            throw new IllegalArgumentException();
+
+        var parameterValue = params.get(parameterName);
+        if (parameterValue.isEmpty())
+            throw new NullPointerException();
+        return UUID.fromString(parameterValue.get());
+    }
+
+    //endregion
 }

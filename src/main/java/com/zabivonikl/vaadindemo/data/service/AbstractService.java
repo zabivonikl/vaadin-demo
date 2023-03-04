@@ -5,6 +5,8 @@ import com.zabivonikl.vaadindemo.data.service.repositories.AbstractRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.UUID;
+
 public abstract class AbstractService<T extends AbstractEntity> {
     private final AbstractRepository<T> repository;
 
@@ -12,8 +14,12 @@ public abstract class AbstractService<T extends AbstractEntity> {
         this.repository = repository;
     }
 
+    public T findById(UUID id) {
+        return repository.findById(id).orElse(null);
+    }
+
     public boolean contains(T entity) {
-        return repository.findById(entity.getId()).isPresent();
+        return entity != null && entity.getId() != null && findById(entity.getId()) != null;
     }
 
     public T update(T entity) {
