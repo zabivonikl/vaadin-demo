@@ -1,7 +1,6 @@
-package com.zabivonikl.vaadindemo.data;
+package com.zabivonikl.vaadindemo.views.tableviews;
 
 import com.vaadin.flow.component.ComponentEvent;
-import com.zabivonikl.vaadindemo.views.tableviews.EditDialog;
 
 public class EditFormEvents {
     public abstract static class EditFormEvent extends ComponentEvent<EditDialog<?>> {
@@ -18,12 +17,6 @@ public class EditFormEvents {
 
     public static class DeleteEvent extends EditFormEvent {
         public DeleteEvent(EditDialog source) {
-            super(source);
-        }
-    }
-
-    public static class CloseEvent extends EditFormEvent {
-        public CloseEvent(EditDialog source) {
             super(source);
         }
     }

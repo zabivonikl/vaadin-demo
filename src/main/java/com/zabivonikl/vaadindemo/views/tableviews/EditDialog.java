@@ -14,7 +14,7 @@ import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.binder.ValidationException;
 import com.vaadin.flow.shared.Registration;
-import com.zabivonikl.vaadindemo.data.EditFormEvents;
+import com.vaadin.flow.theme.lumo.LumoUtility;
 import com.zabivonikl.vaadindemo.data.entity.AbstractEntity;
 
 public abstract class EditDialog<T extends AbstractEntity> extends Dialog {
@@ -73,10 +73,13 @@ public abstract class EditDialog<T extends AbstractEntity> extends Dialog {
 
     //endregion
 
-    //region Creating form
+    //region Creating a form
 
     private H1 createHeader() {
-        return new H1("Редактор сущностей");
+        var h1 = new H1("Редактор сущностей");
+        h1.addClassNames(LumoUtility.TextAlignment.CENTER);
+        h1.setSizeFull();
+        return h1;
     }
 
     private HorizontalLayout createFooter() {

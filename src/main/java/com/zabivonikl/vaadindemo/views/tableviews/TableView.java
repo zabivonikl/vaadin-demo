@@ -11,7 +11,6 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.provider.ConfigurableFilterDataProvider;
 import com.vaadin.flow.data.value.ValueChangeMode;
-import com.zabivonikl.vaadindemo.data.EditFormEvents;
 import com.zabivonikl.vaadindemo.data.entity.AbstractEntity;
 import com.zabivonikl.vaadindemo.data.entity.Role;
 import com.zabivonikl.vaadindemo.data.service.AbstractService;
@@ -24,7 +23,7 @@ public abstract class TableView<T extends AbstractEntity> extends VerticalLayout
     private final ConfigurableFilterDataProvider<T, Void, String> dataProvider;
     private final TextField filterText;
     private final Grid<T> grid;
-    private final EditDialog<T> dialog = createDialog();
+    private final EditDialog<T> dialog;
 
     public TableView(AbstractService<T> entityService, SecurityService securityService) {
         this.entityService = entityService;
@@ -33,13 +32,17 @@ public abstract class TableView<T extends AbstractEntity> extends VerticalLayout
 
         this.filterText = createFilterText();
         this.grid = createGrid();
+        this.dialog = createDialog();
 
         setPadding(true);
         addClassName("list-view");
 
         setSizeFull();
 
-        add(createToolbar(), createContent());
+        add(
+                createToolbar(),
+                createContent()
+        );
     }
 
     protected abstract ConfigurableFilterDataProvider<T, Void, String> getDataProvider();
@@ -82,14 +85,9 @@ public abstract class TableView<T extends AbstractEntity> extends VerticalLayout
     //region Anonymous components initialization
 
     private HorizontalLayout createToolbar() {
-        createFilterText();
-        var toolbar = isUserAdmin() ?
+        return isUserAdmin() ?
                 new HorizontalLayout(filterText, createAddButton()) :
                 new HorizontalLayout(filterText);
-
-        toolbar.addClassName("toolbar");
-
-        return toolbar;
     }
 
     private Component createAddButton() {
@@ -100,10 +98,7 @@ public abstract class TableView<T extends AbstractEntity> extends VerticalLayout
     }
 
     private Component createContent() {
-        var content = new HorizontalLayout(grid);
-        content.addClassNames("content");
-        content.setSizeFull();
-        return content;
+        return grid;
     }
 
     //endregion
@@ -116,9 +111,11 @@ public abstract class TableView<T extends AbstractEntity> extends VerticalLayout
     }
 
     protected void saveEntity(EditFormEvents.SaveEvent event) {
-        if (!isUserAdmin()) return;
+        if (!isUserAdmin())
+            return;
+
         var entityToSave = dialog.getEntity();
-        if (entityService.get(entityToSave.getId()).isPresent()) {
+        if (entityService.contains(entityToSave)) {
             entityService.update(entityToSave);
             dataProvider.refreshAll();
         } else {
