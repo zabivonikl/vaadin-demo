@@ -38,7 +38,6 @@ public abstract class TableView<T extends AbstractEntity> extends VerticalLayout
         this.dialog = createDialog();
 
         setPadding(true);
-
         setSizeFull();
 
         add(

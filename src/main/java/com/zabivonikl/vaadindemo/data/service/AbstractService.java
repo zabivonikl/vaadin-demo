@@ -45,10 +45,10 @@ public abstract class AbstractService<T extends AbstractEntity> extends Abstract
     @Override
     protected Stream<T> fetchFromBackEnd(Query<T, String> query) {
         var page = PageRequest.of(query.getPage(), query.getPageSize());
-        if (query.getFilter().isPresent())
-            return findAll(query.getFilter().get(), page).stream();
+        return query.getFilter().isPresent() ?
+                findAll(query.getFilter().get(), page).stream() :
+                findAll(page).stream();
 
-        return findAll(page).stream();
     }
 
     @Override
