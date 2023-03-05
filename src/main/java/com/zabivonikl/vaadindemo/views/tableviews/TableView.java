@@ -47,7 +47,9 @@ public abstract class TableView<T extends AbstractEntity> extends VerticalLayout
         );
     }
 
-    protected abstract ConfigurableFilterDataProvider<T, Void, String> getDataProvider();
+    private ConfigurableFilterDataProvider<T, Void, String> getDataProvider() {
+        return entityService.withConfigurableFilter();
+    }
 
     //region Field-components initialization
 

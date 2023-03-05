@@ -7,7 +7,6 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.zabivonikl.vaadindemo.data.entity.InventoryItem;
 import com.zabivonikl.vaadindemo.data.entity.Person;
 import com.zabivonikl.vaadindemo.data.service.PersonalService;
-import com.zabivonikl.vaadindemo.data.service.dataproviders.PersonalProvider;
 import com.zabivonikl.vaadindemo.views.tableviews.EditDialog;
 
 
@@ -90,7 +89,7 @@ public class InventoryItemEditDialog extends EditDialog<InventoryItem> {
 
     private ComboBox<Person> createComboBox() {
         ComboBox<Person> comboBox = new ComboBox<>("Добавлен");
-        comboBox.setItems(new PersonalProvider(personalService));
+        if (personalService != null) comboBox.setItems(personalService);
         comboBox.setItemLabelGenerator(Person::getFullName);
         comboBox.setPlaceholder("Поиск...");
         comboBox.setSizeFull();

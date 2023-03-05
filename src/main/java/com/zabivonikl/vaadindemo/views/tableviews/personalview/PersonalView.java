@@ -1,12 +1,10 @@
 package com.zabivonikl.vaadindemo.views.tableviews.personalview;
 
 import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.data.provider.ConfigurableFilterDataProvider;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.zabivonikl.vaadindemo.data.entity.Person;
 import com.zabivonikl.vaadindemo.data.service.PersonalService;
-import com.zabivonikl.vaadindemo.data.service.dataproviders.PersonalProvider;
 import com.zabivonikl.vaadindemo.security.SecurityService;
 import com.zabivonikl.vaadindemo.views.MainLayout;
 import com.zabivonikl.vaadindemo.views.tableviews.TableView;
@@ -24,11 +22,6 @@ public class PersonalView extends TableView<Person> {
     @Override
     protected PersonEditDialog createDialogProto() {
         return new PersonEditDialog();
-    }
-
-    @Override
-    protected ConfigurableFilterDataProvider<Person, Void, String> getDataProvider() {
-        return new PersonalProvider(entityService).withConfigurableFilter();
     }
 
     @Override

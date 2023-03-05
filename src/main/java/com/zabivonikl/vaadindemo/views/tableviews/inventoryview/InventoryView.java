@@ -3,7 +3,6 @@ package com.zabivonikl.vaadindemo.views.tableviews.inventoryview;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Paragraph;
-import com.vaadin.flow.data.provider.ConfigurableFilterDataProvider;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
@@ -12,7 +11,6 @@ import com.vaadin.flow.router.RouterLink;
 import com.zabivonikl.vaadindemo.data.entity.InventoryItem;
 import com.zabivonikl.vaadindemo.data.service.InventoryService;
 import com.zabivonikl.vaadindemo.data.service.PersonalService;
-import com.zabivonikl.vaadindemo.data.service.dataproviders.InventoryProvider;
 import com.zabivonikl.vaadindemo.security.SecurityService;
 import com.zabivonikl.vaadindemo.views.MainLayout;
 import com.zabivonikl.vaadindemo.views.tableviews.TableView;
@@ -36,11 +34,6 @@ public class InventoryView extends TableView<InventoryItem> {
     @Override
     protected InventoryItemEditDialog createDialogProto() {
         return new InventoryItemEditDialog(personalService);
-    }
-
-    @Override
-    protected ConfigurableFilterDataProvider<InventoryItem, Void, String> getDataProvider() {
-        return new InventoryProvider(entityService).withConfigurableFilter();
     }
 
     @Override
